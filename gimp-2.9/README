@@ -1,0 +1,12 @@
+To compile a development GIT version of gimp-2.9
+together with the development GIT versions of the babl and gegl.
+
+Script is designed to install the GIT version of the Gimp together with 
+the babl and gegl into a separate directory, /opt/gimp-2.9
+allowing to run gimp-2.9 independently from the installed stable version
+of the gimp-2.8, babl and gegl provided with the Slackware.
+
+The package name is going to be 'gimp2p9-...txz' to avoid conflicts 
+with the Slackware 'gimp-2.8...txz' package.
+The 'gimp-git' shell script installed to /usr/bin allows to run gimp-2.9
+at /opt/gimp-2.9
