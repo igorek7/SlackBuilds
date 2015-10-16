@@ -30,6 +30,7 @@ Prior to opt for my scripts, I would suggest to check:
 * Eric Hameleers' (AlienBOB) http://www.slackware.com/~alien/slackbuilds/ , 
 * PhantomX/slackbuilds http://phantomx.github.io/slackbuilds/
 * Slackers/slackbuilds https://github.com/conraid/SlackBuilds
+
 for the more stable and perhaps better tested versions.
 My SlackBuild scripts are complementary to those.
 
