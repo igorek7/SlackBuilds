@@ -1,0 +1,10 @@
+fftw
+gimp
+opencv
+fftw (make)
+gimp (make)
+gtk2 (make)
+mesa (make)
+opencv (make)
+openexr (make)
+qt4 (make)

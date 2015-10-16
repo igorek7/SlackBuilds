@@ -23,7 +23,7 @@
 
 # <DIO>
 # To compile a development version of gimp-2.9
-# Version 151015
+# Version 151016
 # Based on discussions at:
 # http://gimp.1065349.n5.nabble.com/building-GIMP-from-git-td46202.html
 # https://mail.gnome.org/archives/gimp-developer-list/2015-February/msg00051.html
@@ -35,7 +35,7 @@ PKGNAM="gimp2p9"
 SRCNAM="gimp"
 VERSION=`date +%g%m%d`
 #VERSION=${VERSION:-$(echo $PKGNAM-*.tar.?z* | rev | cut -f 3- -d . | cut -f 1 -d - | rev)}
-BUILD=${BUILD:-3}
+BUILD=${BUILD:-4}
 TAG=${TAG:-dio}
 
 # Automatically determine the architecture we're building on:
@@ -167,11 +167,11 @@ find . \
   \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
   -exec chmod 644 {} \;
 
-CFLAGS="$SLKCFLAGS -fno-strict-aliasing" \
+CFLAGS="${SLKCFLAGS} -fno-strict-aliasing" \
 CXXFLAGS="${SLKCFLAGS} -fno-strict-aliasing" \
 PKG_CONFIG_PATH="${PREFIX}/lib${LIBDIRSUFFIX}/pkgconfig" \
 LDFLAGS="-Wl,-rpath -Wl,${PREFIX}/lib${LIBDIRSUFFIX}" \
-./autogen.sh --prefix=${PREFIX}
+./autogen.sh --prefix=${PREFIX} \
   --libdir=${PREFIX}/lib${LIBDIRSUFFIX} \
   --sysconfdir=${PREFIX}/etc \
   --localstatedir=/var/lib \

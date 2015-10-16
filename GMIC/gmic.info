@@ -1,0 +1,7 @@
+PRGNAM="gmic"
+VERSION="1.6.6.1"
+HOMEPAGE="http://gmic.eu"
+DOWNLOAD="http://gmic.eu/files/source/gmic_1.6.6.1.tar.gz"
+MD5SUM="1b97339072586320f4bffc05373521c4"
+SHASUM="6e1bda0ae7875fd5da7e17eb29ee8ac62a9d8aba"
+REQUIRES="opencv"
