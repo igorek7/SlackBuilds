@@ -24,11 +24,13 @@ Please, also note that many of my scripts are designed to install unstable
 development versions of the software packages, and may require
 corrections at any time when a source code is significantly modified
 by its developers.
-Prior to opt for my scripts, I would suggest to check the official Slackware 
-packages, http://slackbuilds.org ,
-http://www.slackware.com/~alien/slackbuilds/ , 
-http://phantomx.github.io/slackbuilds/
+Prior to opt for my scripts, I would suggest to check: 
+* the official Slackware packages http://www.slackware.com/changelog/
+* SlackBuild.org http://slackbuilds.org 
+* Eric Hameleers' (AlienBOB) http://www.slackware.com/~alien/slackbuilds/ , 
+* PhantomX/slackbuilds http://phantomx.github.io/slackbuilds/
 for the more stable and perhaps better tested versions.
+My SlackBuild scripts are complementary to those.
 
 All my scripts are tested to be working on my own Slackware 
 configuration, based on: 
