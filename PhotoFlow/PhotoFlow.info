@@ -1,0 +1,7 @@
+PRGNAM="photoflow"
+VERSION="`date +%g%m%d`"
+HOMEPAGE="http://photoflowblog.blogspot.fr"
+DOWNLOAD="https://github.com/aferrero2707/PhotoFlow/archive/master.zip"
+MD5SUM="xxx"
+SHASUM="xxx"
+REQUIRES="vips glib libxml libtiff libjpeg libfftw3 exiv2 lensfun gtkmm murrine-themes"

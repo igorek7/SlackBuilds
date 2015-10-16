@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description. Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in. You must
+# make exactly 11 lines for the formatting to be correct. It's also customary
+# to leave one space after the ':'.
+
+    |----handy-ruler----------------------------------------------------------|
+photoflow: PhotoFlow
+photoflow:
+photoflow: PhotoFlow is a a fully non-destructive photo retouching program
+photoflow: that includes a complete workflow from RAW image development
+photoflow: to high-quality printing.
+photoflow:
+photoflow: http://photoflowblog.blogspot.fr/
+photoflow: https://github.com/aferrero2707/PhotoFlow
+photoflow: https://plus.google.com/112083183053602237219
+photoflow:
+photoflow:

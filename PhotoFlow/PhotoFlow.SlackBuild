@@ -1,0 +1,187 @@
+#!/bin/sh
+# Slackware build script for 
+# PhotoFlow by Ferrero Andrea
+# https://github.com/aferrero2707/PhotoFlow
+# http://photoflowblog.blogspot.fr/
+# https://plus.google.com/112083183053602237219
+# 
+# SlackBuild script is written by Igor Drozdovsky <igor29768 @ gmail.com>
+# Version 151016
+#
+# Redistribution and use of this script, with or without modification, is
+# permitted provided that the following conditions are met:
+#
+# 1. Redistributions of this script must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#
+#  THIS SOFTWARE IS PROVIDED BY THE AUTHOR `AS IS'' AND ANY EXPRESS OR IMPLIED
+#  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+#  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO
+#  EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+#  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+#  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+#  OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+#  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+#  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+#  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+PRGNAM=PhotoFlow
+NAME=photoflow
+VERSION=`date +%g%m%d`
+BUILD=${BUILD:-1}
+TAG=${TAG:-dio}
+
+if [ -z "$ARCH" ]; then
+  case "$( uname -m )" in
+    i?86) ARCH=i686 ;;
+    arm*) ARCH=arm ;;
+       *) ARCH=$( uname -m ) ;;
+  esac
+fi
+
+CWD=$(pwd)
+TMP=${TMP:-/tmp/SBo}
+PKG=$TMP/package-$PRGNAM
+OUTPUT=${OUTPUT:-/tmp}
+
+if [ "$ARCH" = "i486" ]; then
+  SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "i686" ]; then
+  SLKCFLAGS="-O2 -march=i686 -mtune=i686"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "x86_64" ]; then
+  SLKCFLAGS="-O2 -fPIC"
+  LIBDIRSUFFIX="64"
+else
+  SLKCFLAGS="-O2"
+  LIBDIRSUFFIX=""
+fi
+
+NJOBS=${NJOBS:-$(( $(getconf _NPROCESSORS_ONLN) - 1 ))}
+
+set -e
+
+rm -rf $PKG
+mkdir -p $TMP $PKG $OUTPUT
+cd $TMP
+#rm -rf $PRGNAM-$VERSION
+#tar xvf $CWD/$PRGNAM-$VERSION.tar.gz
+#cd $PRGNAM-$VERSION
+
+if [ ! -e $PRGNAM ]; then
+ git clone https://github.com/aferrero2707/PhotoFlow.git ${PRGNAM}
+ cd $PRGNAM
+else   
+ cd $PRGNAM
+ git pull
+fi
+
+chown -R root:root .
+find -L . \
+ \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 -o -perm 511 \) \
+ -exec chmod 755 {} \; -o \
+ \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+ -exec chmod 644 {} \;
+
+# Compilation
+# Old version
+#cd build
+#./build.sh
+#mkdir -p $PKG/usr
+#cp -rv Release/* $PKG/usr
+#
+
+mkdir -p build
+( cd build || exit $?
+  rm CMakeCache.txt
+  cmake \
+    -DCMAKE_C_FLAGS="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS="$SLKCFLAGS" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DLIB_INSTALL_DIR=/usr/lib${LIBDIRSUFFIX} \
+    -DLIB_SUFFIX=${LIBDIRSUFFIX} \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
+    -DINSTALL_PREFIX=${PKG}/usr \
+    ../ || exit 1
+
+#  make -j${NJOBS} || make || exit $?
+  make || make || exit $?
+  make install DESTDIR=${PKG} || exit $?
+
+) || exit $?
+
+# Copy program documentation into the package
+mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
+cd $TMP/$PRGNAM
+cp -a \
+  CHANGELOG README.md \
+  $PKG/usr/doc/$PRGNAM-$VERSION
+cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
+
+mkdir -p $PKG/install
+cat $CWD/slack-desc > $PKG/install/slack-desc
+cat $CWD/slack-required > $PKG/install/slack-required
+
+# Make Desktop link to the program
+# No photoflow 'Icon' is provided. 
+# I'm using an old icon discussed on the PhotoFlow google+
+
+#mkdir -p ${PKG}/usr/share/icons/hicolor/48x48/apps
+#install -pm0644 ${CWD}/photoflow.png \
+#  ${PKG}/usr/share/icons/hicolor/48x48/apps/phoflow.png || exit 1
+
+for res in 16 20 22 24 32 36 48 ;do
+  dir=${PKG}/usr/share/icons/hicolor/${res}x${res}/apps
+  mkdir -p ${dir}
+  convert ${CWD}/photoflow.Orig.png -filter Lanczos -resize ${res}x${res} \
+   -depth 8 ${dir}/photoflow.png || exit 1
+done
+convert ${CWD}/photoflow.Orig.png -filter Lanczos -resize 128x128 -depth 8 \
+    ${PKG}/usr/share/icons/photoflow128.xpm || exit 1
+
+
+mkdir -p ${PKG}/usr/share/applications
+cat > ${PKG}/usr/share/applications/${PRGNAM//-}.desktop <<EOF
+[Desktop Entry]
+Version=1.0
+Name=${PRGNAM//-}
+GenericName=${PRGNAM//-} - photo retouching program
+Type=Application
+Comment=A non-destructive photo retouching program
+Exec=photoflow %F
+TryExec=photoflow
+Icon=photoflow
+MimeType=application/x-photoflow;image/x-dcraw;image/bmp;image/jpeg;image/png;image/tiff;
+Terminal=false
+StartupNotify=true
+Categories=Graphics;Photography;
+EOF
+
+# Create install/doinst.sh
+#cat $CWD/doinst.sh > $PKG/install/doinst.sh
+cat > ${PKG}/install/doinst.sh <<EOF
+#!/bin/sh
+# Figure out our root directory
+ROOTDIR=\$(pwd)
+unset CHROOT
+if test "\${ROOTDIR}" != "/"; then
+  CHROOT="chroot \${ROOTDIR} "
+  ROOTDIR="\${ROOTDIR}/"
+fi
+if [ -x usr/bin/update-desktop-database ]; then
+  \${CHROOT} /usr/bin/update-desktop-database /usr/share/applications >/dev/null 2>&1
+fi
+if [ -x usr/bin/gtk-update-icon-cache ]; then
+  \${CHROOT} /usr/bin/touch --no-create /usr/share/icons/hicolor >/dev/null 2>&1
+  \${CHROOT} /usr/bin/gtk-update-icon-cache /usr/share/icons/hicolor >/dev/null 2>&1
+fi
+if [ -x usr/bin/update-mime-database ]; then
+  \${CHROOT} /usr/bin/update-mime-database /usr/share/mime &> /dev/null
+fi
+EOF
+
+# Make the package; be sure to leave it in $OUTPUT
+cd $PKG
+/sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-txz}

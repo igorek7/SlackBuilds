@@ -1,0 +1,18 @@
+vips
+gettext
+glib >= 2.0
+libxml >= 2.0
+pkg-config
+swig
+gtk-doc-tools
+automake
+gobject-introspection
+make
+cmake
+libtiff
+libjpeg
+libfftw3
+exiv2
+lensfun
+gtkmm >= 2.0
+murrine-themes
