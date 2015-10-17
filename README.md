@@ -30,6 +30,8 @@ Prior to opt for my scripts, I would suggest to check:
 * Eric Hameleers' (AlienBOB) http://www.slackware.com/~alien/slackbuilds/ , 
 * PhantomX/slackbuilds http://phantomx.github.io/slackbuilds/
 * Slackers/slackbuilds https://github.com/conraid/SlackBuilds
+* Papitux/SlackStuff https://github.com/Papitux/SlackStuff
+
 
 for the more stable and perhaps better tested versions.
 My SlackBuild scripts are complementary to those.
@@ -39,4 +41,4 @@ configuration, based on:
 * the Slackware-current for the x86_64 architecture 
 * Eric Hameleers' (AlienBOB) 'multilib'&'ktown_testing' (for the Frameworks 5)
 * Ponce/SBo-git (current) https://github.com/Ponce/slackbuilds
-* PhantomX/slackbuilds http://phantomx.github.io/slackbuilds/
+* and the revised versions of SlackBuilds from the mentioned above
