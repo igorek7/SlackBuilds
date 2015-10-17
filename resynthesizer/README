@@ -1,0 +1,39 @@
+Resynthesizer is a Gimp plug-in for texture synthesis. Given a sample
+of a texture, it can create more of that texture. This has a surprising
+number of uses:
+
+    * Creating more of a texture
+      (including creation of tileable textures)
+
+    * Removing objects from images
+      (great for touching up photos)
+
+    * Creating themed images
+
+This plug-in installs itself in the Filters/Map menu as "Resynthesize".
+It generates a texture based on a sample image of the texture. The
+result can be made to fit the boundary pixels of a region, or to have
+a specified arrangement of features.
+
+Also included in this package are some scripts that use Resynthesizer:
+
+  Filters/Enhance/Smart enlarge 
+  Filters/Enhance/Smart sharpen
+  Filters/Enhance/Smart remove selection
+
+Version 2.0 is a complete rewrite and is multithreaded.  Otherwise,
+functionally the same except when compiled threaded it is
+nondeterministic.
+
+The build package will contain the plugin, both for the gimp-2.8 
+and gimp-2.9 (if 2.9 is installed). 
+
+Warning! Some of the resynthesizer utils, 'plugin-heal-transparency.py'
+and 'plugin-heal-selection.py' call for the deprecated in gimp-2.9
+procedures: 
+* 'gimp-selection-layer-alpha' instead of 'gimp-image-select-item'
+* 'gimp-selection-combine' instead of 'gimp-image-select-item'
+* 'gimp-selection-load' instead of 'gimp-image-select-item' 
+Nonetheless, despite of the warning messages, the procedures appear  to
+be working in the current development version of gimp-2.9.  I'll try to
+correct the python code for the gimp-2.9 in the future.
