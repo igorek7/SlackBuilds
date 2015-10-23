@@ -1,0 +1,7 @@
+PRGNAM="ufraw"
+VERSION="cvs"
+HOMEPAGE="http://ufraw.sourceforge.net/"
+DOWNLOAD="cvs -d:pserver:anonymous@ufraw.cvs.sourceforge.net:/cvsroot/ufraw"
+DOWNLOAD_x86_64=""
+MD5SUM_x86_64=""
+REQUIRES="dcraw gtkimageview lensfun"

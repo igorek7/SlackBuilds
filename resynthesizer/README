@@ -25,7 +25,7 @@ Version 2.0 is a complete rewrite and is multithreaded.  Otherwise,
 functionally the same except when compiled threaded it is
 nondeterministic.
 
-The build package will contain the plugin, both for the gimp-2.8 
+The built package will contain the plugin for both, the gimp-2.8 
 and gimp-2.9 (if 2.9 is installed). 
 
 Warning! Some of the resynthesizer utils, 'plugin-heal-transparency.py'

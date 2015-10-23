@@ -114,9 +114,9 @@ make install DESTDIR=$PKG || exit 1
 
 if [ -d /opt/gimp-2.9 ]; then
  make clean
- cp Makefile Makefile-2.9
- sed -i 's#gimptool#/opt/gimp-2.9/bin/gimptool#g' Makefile-2.9
- sed -i 's#/usr #/opt/gimp-2.9 #g' Makefile-2.9
+# cp Makefile Makefile-2.9
+# sed -i 's#gimptool#/opt/gimp-2.9/bin/gimptool#g' Makefile-2.9
+# sed -i 's#/usr #/opt/gimp-2.9 #g' Makefile-2.9
  CFLAGS="$SLKCFLAGS" \
  CXXFLAGS="$SLKCFLAGS" \
  PKG_CONFIG_PATH="/opt/gimp-2.9/lib${LIBDIRSUFFIX}/pkgconfig" \
@@ -126,8 +126,10 @@ if [ -d /opt/gimp-2.9 ]; then
   --sysconfdir=/opt/gimp-2.9/etc \
   --libdir=/opt/gimp-2.9/lib${LIBDIRSUFFIX} \
   --build=$ARCH-slackware-linux
- make -f Makefile-2.9 $NUMJOBS || make -f Makefile-2.9 || exit 1
- make -f Makefile-2.9 install DESTDIR=$PKG || exit 1
+# make -f Makefile-2.9 $NUMJOBS || make -f Makefile-2.9 || exit 1
+# make -f Makefile-2.9 install DESTDIR=$PKG || exit 1
+ make $NUMJOBS || make || exit 1
+ make install DESTDIR=$PKG || exit 1
 fi
 
 find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF \

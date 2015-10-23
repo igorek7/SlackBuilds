@@ -8,5 +8,5 @@ applicable blur.
 
 http://registry.gimp.org/node/1444
 
-The build package will contain the plugin, both for the gimp-2.8 
+The built package will contain the plugin for both, the gimp-2.8 
 and gimp-2.9 (if 2.9 is installed).
