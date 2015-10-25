@@ -1,0 +1,14 @@
+gcc-g++
+fftw
+freeglut
+gc
+glibc
+glu
+gsl
+libsigsegv
+mesa
+ncurses
+python (optional for GUI)
+readline
+tetex
+zlib 

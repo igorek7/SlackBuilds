@@ -1,0 +1,150 @@
+#!/bin/sh
+# Copyright 2015 <DIO> igor29768 @ gmail.com
+# Copyright Loris Vincenzi (http://www.slacky.eu)
+# All rights reserved.
+#
+# based on the Slackware 13.0 SlackBuild
+# http://asymptote.sourceforge.net/
+#
+# Redistribution and use of this script, with or without modification, is
+# permitted provided that the following conditions are met:
+#
+# 1. Redistributions of this script must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#
+# THIS SOFTWARE IS PROVIDED BY THE AUTHOR ''AS IS'' AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+# EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+# OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+# ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+# Version of this SlackBuild: 151025
+
+# Set variables:
+CWD=$(pwd)
+
+PRGNAM=asymptote
+VERSION=${VERSION:-2.35}
+BUILD=${BUILD:-2}
+TAG=${TAG:-dio}
+TMP=${TMP:-/tmp/SBo}
+PKG=$TMP/package-$PRGNAM
+DOCS="$PKG/usr/doc/$PRGNAM-$VERSION"
+OUTPUT=${OUTPUT:-/tmp}
+
+# Automatically determine the architecture we're building on:
+if [ -z "$ARCH" ]; then
+  case "$( uname -m )" in
+    i?86) export ARCH=i486 ;;
+    arm*) export ARCH=arm ;;
+    # Unless $ARCH is already set, use uname -m for all other archs:
+       *) export ARCH=$( uname -m ) ;;
+  esac
+fi
+
+# Obtaining the source, if it is not present
+# git clone https://github.com/vectorgraphics/asymptote
+SOURCE=http://prdownloads.sourceforge.net/asymptote/$PRGNAM-$VERSION.src.tgz
+DL_PROG=${DL_PROG:-wget}
+DL_TO=${DL_TO:-5}
+DL_OPTS=${DL_OPTS:-"--timeout=${DL_TO}"}
+
+if [ ! -e $PRGNAM-$VERSION.src.tgz ]; then
+  ${DL_PROG} ${DL_OPTS} $SOURCE
+fi
+
+# Set compiling FLAGS
+if [ "$ARCH" = "i486" ]; then
+  SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "i686" ]; then
+  SLKCFLAGS="-O2 -march=i686 -mtune=i686"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "x86_64" ]; then
+  SLKCFLAGS="-O2 -fPIC"
+  LIBDIRSUFFIX="64"
+else   
+  SLKCFLAGS="-O2"
+  LIBDIRSUFFIX=""
+fi
+
+rm -rf $PKG
+mkdir -p $TMP $PKG $OUTPUT
+cd $TMP
+tar xzvf $CWD/$PRGNAM-$VERSION.src.tgz
+cd $PRGNAM-$VERSION
+chown -R root.root .
+find -L . \
+ \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
+  -o -perm 511 \) -exec chmod 755 {} \; -o \
+ \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
+ -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
+
+NJOBS=${NJOBS:-j$(( $(getconf _NPROCESSORS_ONLN) - 1 ))}
+
+# Exit on most errors or unset variables
+set -eu
+
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+./autogen.sh
+
+export PATH="$PATH:/usr/share/texmf/bin"
+
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+./configure --prefix=/usr \
+--sysconfdir=/etc \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--localstatedir=/var \
+--mandir=/usr/man \
+--enable-gc=system \
+--program-prefix= \
+--program-suffix= \
+--with-latex=/usr/share/texmf \
+--build=$ARCH-slackware-linux
+
+make all || exit 1
+make install DESTDIR=$PKG || exit 1
+
+mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
+# Need fixing in the future
+ln -s $PKG/usr/doc/$PRGNAM-$VERSION $PKG/usr/doc/$PRGNAM
+cp -a TODO README INSTALL BUGS ChangeLog LICENSE $PKG/usr/doc/$PRGNAM-$VERSION
+cp -a $PKG/usr/share/doc/asymptote/* $PKG/usr/doc/$PRGNAM-$VERSION
+rm -rf $PKG/usr/share/doc
+find $PKG/usr/doc -type f -exec chmod 644 {} \;
+
+[ -d $PKG/usr/share/man ] && mv -i $PKG/usr/share/man $PKG/usr/man
+# Compress the man page(s):
+if [ -d $PKG/usr/man ]; then
+  find $PKG/usr/man -type f -name "*.?" -exec gzip -9f {} \;
+  for i in $(find $PKG/usr/man -type l -name "*.?") ; do 
+                               ln -s $( readlink $i ).gz $i.gz ; rm $i ; done
+fi
+
+[ -d $PKG/usr/share/info ] && mv -i $PKG/usr/share/info $PKG/usr/info
+[ -d $PKG/usr/info/$PRGNAM ] && ( mv -i $PKG/usr/info/$PRGNAM/* $PKG/usr/info/
+                                  rmdir $PKG/usr/info/$PRGNAM )
+[ -d $PKG/usr/info ] && ( cd $PKG/usr/info
+    rm -f dir && [ "`ls *.info*`" ] && gzip -9 *.info* \
+        && [ "$DEBUG" ] && echo "info pages in $PKG/usr/info gzipped" ) || true
+
+# Strip binaries:
+( find $PKG | xargs file | grep -e "executable" -e "shared object" \
+  | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null )
+
+# Add a package description:
+mkdir -p $PKG/install
+cat $CWD/slack-desc > $PKG/install/slack-desc
+cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
+#sbbdep --quiet --short $PKG/usr/bin/asy > $PKG/install/slack-required
+cat $CWD/slack-required > $PKG/install/slack-required
+
+cd $PKG
+makepkg -l y -c n $OUTPUT/${PRGNAM}-${VERSION}-${ARCH}-${BUILD}${TAG}.txz
