@@ -5,9 +5,11 @@ gc
 glibc
 glu
 gsl
+imagemagick
 libsigsegv
 mesa
 ncurses
+perl (to make ?)
 python (optional for GUI)
 readline
 tetex

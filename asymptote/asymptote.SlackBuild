@@ -23,14 +23,15 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-# Version of this SlackBuild: 151025
+# Version of this SlackBuild: 151026
 
 # Set variables:
 CWD=$(pwd)
 
 PRGNAM=asymptote
-VERSION=${VERSION:-2.35}
-BUILD=${BUILD:-2}
+VERSION=`date +%g%m%d`
+#VERSION=${VERSION:-2.35}
+BUILD=${BUILD:-1}
 TAG=${TAG:-dio}
 TMP=${TMP:-/tmp/SBo}
 PKG=$TMP/package-$PRGNAM
@@ -47,16 +48,6 @@ if [ -z "$ARCH" ]; then
   esac
 fi
 
-# Obtaining the source, if it is not present
-# git clone https://github.com/vectorgraphics/asymptote
-SOURCE=http://prdownloads.sourceforge.net/asymptote/$PRGNAM-$VERSION.src.tgz
-DL_PROG=${DL_PROG:-wget}
-DL_TO=${DL_TO:-5}
-DL_OPTS=${DL_OPTS:-"--timeout=${DL_TO}"}
-
-if [ ! -e $PRGNAM-$VERSION.src.tgz ]; then
-  ${DL_PROG} ${DL_OPTS} $SOURCE
-fi
 
 # Set compiling FLAGS
 if [ "$ARCH" = "i486" ]; then
@@ -73,11 +64,31 @@ else
   LIBDIRSUFFIX=""
 fi
 
+# Obtaining the source, if it is not present
+#SOURCE=http://prdownloads.sourceforge.net/asymptote/$PRGNAM-$VERSION.src.tgz
+#DL_PROG=${DL_PROG:-wget}
+#DL_TO=${DL_TO:-5}
+#DL_OPTS=${DL_OPTS:-"--timeout=${DL_TO}"}
+#
+#if [ ! -e $PRGNAM-$VERSION.src.tgz ]; then
+#  ${DL_PROG} ${DL_OPTS} $SOURCE
+#fi
+
 rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
 cd $TMP
-tar xzvf $CWD/$PRGNAM-$VERSION.src.tgz
-cd $PRGNAM-$VERSION
+
+#tar xzvf $CWD/$PRGNAM-$VERSION.src.tgz
+#cd $PRGNAM-$VERSION
+
+if [ ! -e $PRGNAM ]; then
+ git clone https://github.com/vectorgraphics/asymptote ${PRGNAM}
+ cd $PRGNAM
+else   
+ cd $PRGNAM
+ git pull --rebase
+fi 
+
 chown -R root.root .
 find -L . \
  \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
@@ -103,6 +114,7 @@ CXXFLAGS="$SLKCFLAGS" \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --localstatedir=/var \
 --mandir=/usr/man \
+--infodir=/usr/info \
 --enable-gc=system \
 --program-prefix= \
 --program-suffix= \
@@ -115,7 +127,8 @@ make install DESTDIR=$PKG || exit 1
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
 # Need fixing in the future
 ln -s $PKG/usr/doc/$PRGNAM-$VERSION $PKG/usr/doc/$PRGNAM
-cp -a TODO README INSTALL BUGS ChangeLog LICENSE $PKG/usr/doc/$PRGNAM-$VERSION
+#cp -a TODO README INSTALL BUGS ChangeLog LICENSE $PKG/usr/doc/$PRGNAM-$VERSION
+cp -a TODO README INSTALL BUGS LICENSE $PKG/usr/doc/$PRGNAM-$VERSION
 cp -a $PKG/usr/share/doc/asymptote/* $PKG/usr/doc/$PRGNAM-$VERSION
 rm -rf $PKG/usr/share/doc
 find $PKG/usr/doc -type f -exec chmod 644 {} \;
