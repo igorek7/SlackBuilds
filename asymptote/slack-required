@@ -1,16 +1,18 @@
+dvisvgm (for SVG output)
 gcc-g++
 fftw
 freeglut
 gc
+ghostscript
 glibc
 glu
 gsl
-imagemagick
+imagemagick (for animation)
 libsigsegv
 mesa
 ncurses
 perl (to make ?)
 python (optional for GUI)
 readline
-tetex
+tetex | texlive
 zlib 

@@ -31,7 +31,7 @@ CWD=$(pwd)
 PRGNAM=asymptote
 VERSION=`date +%g%m%d`
 #VERSION=${VERSION:-2.35}
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 TAG=${TAG:-dio}
 TMP=${TMP:-/tmp/SBo}
 PKG=$TMP/package-$PRGNAM
@@ -105,7 +105,11 @@ CFLAGS="$SLKCFLAGS" \
 CXXFLAGS="$SLKCFLAGS" \
 ./autogen.sh
 
-export PATH="$PATH:/usr/share/texmf/bin"
+# Check if the official Slackware tetex is installed 
+[ -d /usr/share/texmf/bin ] && ( texpath="/usr/share/texmf" ;
+                                 export PATH="$PATH:/usr/share/texmf/bin" )
+# TexLive 
+[ -d /usr/share/texmf-dist ] && texpath="/usr/share/texmf-dist" 
 
 CFLAGS="$SLKCFLAGS" \
 CXXFLAGS="$SLKCFLAGS" \
@@ -118,7 +122,7 @@ CXXFLAGS="$SLKCFLAGS" \
 --enable-gc=system \
 --program-prefix= \
 --program-suffix= \
---with-latex=/usr/share/texmf \
+--with-latex=${texpath}/tex/latex \
 --build=$ARCH-slackware-linux
 
 make all || exit 1
@@ -158,6 +162,7 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
 cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
 #sbbdep --quiet --short $PKG/usr/bin/asy > $PKG/install/slack-required
 cat $CWD/slack-required > $PKG/install/slack-required
+echo "chroot . mktexlsr 1>/dev/null 2>/dev/null" >>$PKG/install/doinst.sh
 
 cd $PKG
 makepkg -l y -c n $OUTPUT/${PRGNAM}-${VERSION}-${ARCH}-${BUILD}${TAG}.txz
