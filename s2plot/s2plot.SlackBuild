@@ -31,7 +31,7 @@ set -e
 PRGNAM="s2plot"
 VERSION=${VERSION:-3.2.1}
 #VERSION=`date +%g%m%d`
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 TAG=${TAG:-dio}
 
 if [ -z "$ARCH" ]; then
@@ -118,10 +118,39 @@ csh $TMP/$PRGNAM-$VERSION/scripts/build.csh
 mkdir -p ${PKG}${PREFIX}/lib${LIBDIRSUFFIX}
 cp -a $TMP/$PRGNAM-$VERSION/linux-gnu-$ARCH/*.so ${PKG}${PREFIX}/lib${LIBDIRSUFFIX}
 
-#installing the S2PLOT apps: s2anim and s2slides
+#installing the S2PLOT header files to ${PREFIX}/include 
+mkdir -p ${PKG}${PREFIX}/include
+cp -a $TMP/$PRGNAM-$VERSION/src/*.h ${PKG}${PREFIX}/include
+
+# installing the S2PLOT apps: s2anim and s2slides
 mkdir -p ${PKG}${PREFIX}/bin
 cp -a $TMP/$PRGNAM-$VERSION/linux-gnu-$ARCH/s2anim ${PKG}${PREFIX}/bin/
 cp -a $TMP/$PRGNAM-$VERSION/linux-gnu-$ARCH/s2slides ${PKG}${PREFIX}/bin/
+
+# To compile Python wrappers
+
+cp -a $TMP/$PRGNAM-$VERSION/linux-gnu-$ARCH/*.so ${PREFIX}/lib${LIBDIRSUFFIX}
+export S2PATH=${PREFIX}
+export S2ARCH=lib${LIBDIRSUFFIX}
+
+# Get the Python wrappers 
+if [ ! -e s2plot-python ]; then
+ git clone https://github.com/trmrsh/s2plot-python.git s2plot-python
+ cd s2plot-python
+else   
+ cd s2plot-python
+ make clean
+ git pull --rebase
+fi
+
+cd src
+ln -s /tmp/SBo/s2plot-3.2.1/src/*.h ./
+
+cd ..
+python setup.py build
+python setup.py install --root=$PKG --prefix="/usr"
+cd ..
+
 
 find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true

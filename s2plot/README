@@ -1,9 +1,13 @@
 S2PLOT (3D plotting library)
 is a an advanced three-dimensional plotting library 
 with support for standard and enhanced display devices. 
-The S2PLOT library was written in C and can be used with C, C++ and 
+The S2PLOT library was written in C and can be used with C, C++ and
 FORTRAN programs. The S2PLOT architecture supports dynamic geometry 
 and can be used to plot both static and time-evolving data sets. 
 S2PLOT is based on the OpenGL graphics library. 
 
+The generated plots can be saved in VRML format and embedded in PDF documents.
+
 http://astronomy.swin.edu.au/s2plot/index.php?title=S2PLOT
+
+The included Python wrappers are from https://github.com/trmrsh/s2plot-python
