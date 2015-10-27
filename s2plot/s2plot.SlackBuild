@@ -1,0 +1,153 @@
+#!/bin/sh
+#
+# Slackware Package Build Script for s2plot 
+# Build script by <DIO> igor29768 @ gmail.com
+# Version 151027
+#
+# Requirements: 
+# http://astronomy.swin.edu.au/s2plot/index.php?title=S2PLOT
+#
+# Redistribution and use of this script, with or without modification, is
+# permitted provided that the following conditions are met:
+#
+# 1. Redistributions of this script must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#
+# THIS SOFTWARE IS PROVIDED BY THE AUTHOR ''AS IS'' AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+# EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+# OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+# ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+
+# Exit on most errors
+set -e 
+
+PRGNAM="s2plot"
+VERSION=${VERSION:-3.2.1}
+#VERSION=`date +%g%m%d`
+BUILD=${BUILD:-1}
+TAG=${TAG:-dio}
+
+if [ -z "$ARCH" ]; then
+  case "$( uname -m )" in
+    i?86) ARCH=i486 ;;
+    arm*) ARCH=arm ;;
+       *) ARCH=$( uname -m ) ;;
+  esac
+fi
+
+CWD=$(pwd)
+TMP=${TMP:-/tmp/SBo}
+PKG=$TMP/package-$PRGNAM
+OUTPUT=${OUTPUT:-/tmp}
+PREFIX="/usr/local"
+
+if [ "$ARCH" = "i486" ]; then
+  SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "i686" ]; then
+  SLKCFLAGS="-O2 -march=i686 -mtune=i686"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "x86_64" ]; then
+  SLKCFLAGS="-O2 -fPIC"
+  LIBDIRSUFFIX="64"
+else
+  SLKCFLAGS="-O2"
+  LIBDIRSUFFIX=""
+fi
+
+set -e
+
+SRCDIR=${PRGNAM}-${VERSION}
+SRCARCHIVE=${SRCDIR}.tar.bz2
+
+DL_PROG=${DL_PROG:-wget}
+DL_TO=${DL_TO:-5}
+DL_OPTS=${DL_OPTS:-"--timeout=${DL_TO}"}
+MIRROR_SF=${MIRROR_SF:-http://astronomy.swin.edu.au/s2plot/versions}
+DL_URL="${MIRROR_SF}/${SRCARCHIVE}"
+
+# http://astronomy.swin.edu.au/s2plot/versions/s2plot-3.2.1.tar.bz2
+
+# if source is not present, download in source rootdir if possible
+test -r ${CWD}/${SRCARCHIVE} || ${DL_PROG} ${DL_OPTS} ${DL_URL} || exit 1
+
+rm -rf $TMP/$PRGNAM-$VERSION $PKG
+mkdir -p $TMP $PKG $OUTPUT
+cd $TMP
+tar xvf $CWD/$PRGNAM-$VERSION.tar.bz2
+cd $TMP/$PRGNAM-$VERSION
+
+chown -R root.root .
+find . \
+ \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
+ -exec chmod 755 {} \; -o \
+ \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+ -exec chmod 644 {} \;
+
+# Before running build.sh, we need to set some environment variables.
+export S2PATH=$TMP/$PRGNAM-$VERSION
+export S2ARCH=linux-gnu-$ARCH
+export S2SHARED=yes
+export S2FREEGLUT=yes
+export S2FREETYPE=yes
+export S2EXTRALIB=/usr/lib${LIBDIRSUFFIX}
+export S2PLOT_PRCDRIVER=s2prcwriter
+export S2LBITS=${LIBDIRSUFFIX}
+#export S2INSTALLPATH=
+
+# Set the value of variable S2X11PATH
+sed -i 's#/usr/X11R6/#/usr#g' $TMP/$PRGNAM-$VERSION/scripts/s2plot.csh
+
+# Update COMPPATH
+sed -i 's#local/gcc/4.4.5/#/#g' $TMP/$PRGNAM-$VERSION/scripts/linux-gnu-${ARCH}.in
+
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+csh $TMP/$PRGNAM-$VERSION/scripts/build.csh
+
+#make install DESTDIR=$PKG
+
+#installing the S2PLOT shared libraries
+mkdir -p ${PKG}${PREFIX}/lib${LIBDIRSUFFIX}
+cp -a $TMP/$PRGNAM-$VERSION/linux-gnu-$ARCH/*.so ${PKG}${PREFIX}/lib${LIBDIRSUFFIX}
+
+#installing the S2PLOT apps: s2anim and s2slides
+mkdir -p ${PKG}${PREFIX}/bin
+cp -a $TMP/$PRGNAM-$VERSION/linux-gnu-$ARCH/s2anim ${PKG}${PREFIX}/bin/
+cp -a $TMP/$PRGNAM-$VERSION/linux-gnu-$ARCH/s2slides ${PKG}${PREFIX}/bin/
+
+find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF \
+  | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
+
+#find $PKG/usr/man -type f -exec gzip -9 {} \;
+#for i in $(find $PKG/usr/man -type l) ; do ln -s $(readlink $i).gz $i.gz ; rm $i ; done
+
+mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
+cp -a *.TXT $PKG/usr/doc/$PRGNAM-$VERSION
+# Copying examples to DOC
+mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION/examples
+cp -a $TMP/$PRGNAM-$VERSION/examples/*.c $PKG/usr/doc/$PRGNAM-$VERSION/examples
+find $PKG/usr/doc/$PRGNAM-$VERSION/examples -type f -exec gzip -9 {} \;
+# Copying s2prc README and examples to DOC
+mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION/s2prc
+cp -a $TMP/$PRGNAM-$VERSION/s2prc/*.* $PKG/usr/doc/$PRGNAM-$VERSION/s2prc/
+find $PKG/usr/doc/$PRGNAM-$VERSION/s2prc -type f -exec gzip -9 {} \;
+# Copying build scripts to DOC
+mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION/scripts
+cp -a $TMP/$PRGNAM-$VERSION/scripts/* $PKG/usr/doc/$PRGNAM-$VERSION/scripts
+find $PKG/usr/doc/$PRGNAM-$VERSION/scripts -type f -exec gzip -9 {} \;
+
+mkdir -p $PKG/install
+cat $CWD/slack-desc > $PKG/install/slack-desc
+#cat $CWD/doinst.sh > $PKG/install/doinst.sh
+
+cd $PKG
+
+/sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-txz}

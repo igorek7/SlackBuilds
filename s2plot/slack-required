@@ -1,0 +1,9 @@
+freetype
+freeglut
+gcc
+glibc
+glu
+libX11
+libharu (for s2prc)
+mesa
+tetex | texlive

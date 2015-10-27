@@ -1,0 +1,9 @@
+PRGNAM="s2plot"
+VERSION="3.2.1"
+HOMEPAGE="http://astronomy.swin.edu.au/s2plot/index.php?title=S2PLOT
+DOWNLOAD="http://astronomy.swin.edu.au/s2plot/versions/s2plot-3.2.1.tar.bz2
+MD5SUM="c394efb556d64be383d57e963cb83228
+SHASUM="162702456aac8e7ed150ea419fbba89ac8ca7252
+REQUIRES="freetype freeglut gcc glibc glu libX11 libharu mesa tetex | texlive"
+MAINTAINER="<DIO>"
+EMAIL="igor29768@gmail.com"

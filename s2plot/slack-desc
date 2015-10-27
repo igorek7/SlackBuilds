@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description. Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in. You must
+# make exactly 11 lines for the formatting to be correct. It's also customary
+# to leave one space after the ':'.
+
+      |----handy-ruler-------------------------------------------------------|
+s2plot: S2PLOT (3D plotting library)
+s2plot:
+s2plot: s2plot is a an advanced 3D plotting library 
+s2plot: with support for standard and enhanced display devices. 
+s2plot: The S2PLOT library was written in C and can be used with C, C++ and 
+s2plot: FORTRAN programs. The S2PLOT architecture supports dynamic geometry 
+s2plot: and can be used to plot both static and time-evolving data sets. 
+s2plot: S2PLOT is based on the OpenGL graphics library. 
+s2plot:
+s2plot: http://astronomy.swin.edu.au/s2plot/index.php?title=S2PLOT
+s2plot:
