@@ -4,6 +4,7 @@ HOMEPAGE="http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS"
 DOWNLOAD="http://www.vips.ecs.soton.ac.uk/supported/8.0/vips-8.1.0.tar.gz"
 MD5SUM="8d9ea3d2d26b4457cfd0709c196fdf9f"
 SHASUM="a39eb3a13a8a7ee27a60fc160de719a9f2e23f12"
-REQUIRES=""
+REQUIRES="cfitsio fftw fontconfig freetype ilmbase imagemagick lcms2 libexif libgsf libjpeg-turbo libpng libtiff libwebp libxml2 openexr orc pango"
 MAINTAINER="<DIO>"
 EMAIL="igor29768@gmail.com"
+

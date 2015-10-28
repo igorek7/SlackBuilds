@@ -2,14 +2,9 @@
 #
 # Slackware Package Build Script for vips 
 # Build script by <DIO> igor29768 @ gmail.com
-# Version 151012
+# Version 151028
 #
-# Requirements: fftw3
 # http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS
-# Required fftw 3, 
-# Optional: matio
-# http://www.vips.ecs.soton.ac.uk/supported/current/vips-8.1.0.tar.gz
-#
 #
 # Redistribution and use of this script, with or without modification, is
 # permitted provided that the following conditions are met:
