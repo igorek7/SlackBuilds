@@ -1,10 +1,17 @@
+curl
 fftw
+gcc 
+gcc-g++ 
 gimp
+gtk2 
+ilmbase
+libjpeg-turbo
+libpng
+libtiff
+libX11
 opencv
-fftw (make)
-gimp (make)
-gtk2 (make)
-mesa (make)
-opencv (make)
-openexr (make)
-qt4 (make)
+mesa 
+opencv 
+openexr 
+qt 
+zlib
