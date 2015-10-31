@@ -24,7 +24,7 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-# Version of this SlackBuild: 151028 
+# Version of this SlackBuild: 151031 
 #
 # Exit on most errors or unset variables
 set -eu
@@ -38,7 +38,7 @@ VERSION=${VERSION:-1.6.7}
 #VERSION=${VERSION:-$(echo ${PRGNAM}_*.tar.?z* | rev | cut -f3- -d. | cut -f1 -d_ | rev)}
 #PKGNAME=$(echo $PRGNAM | tr A-Z a-z)
 #PKGVERSION=$(echo $VERSION | tr - _)
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 TAG=${TAG:-dio}
 TMP=${TMP:-/tmp/SBo}
 PKG=$TMP/package-$PRGNAM

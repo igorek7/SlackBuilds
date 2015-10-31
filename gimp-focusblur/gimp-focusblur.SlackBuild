@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Slackware build script for gimp-focusblur
-
+# SlackBuild Version: 151031
 # Copyright 2014 Papitux <papitux.br[at]gmail.com>
 # Copyright 2015 Igor <DIO> <igor29768 [at]gmail.com>
 # All rights reserved.
