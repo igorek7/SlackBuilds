@@ -1,0 +1,8 @@
+seyon (telecommunications package)
+
+This is a patched version of the Slackware xap/seyon-2.20c by
+applying three patches from debian 2.20c-32 (Santiago Vila
+<sanvila@debian.org>) to "rename getline() to  
+seyon_getline() to avoid conflict with system provided getline(). This
+fixes a FTBFS bug when building with glibc 2.21 and gcc 5. Reported by
+Daniel Schepler." https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=790281
