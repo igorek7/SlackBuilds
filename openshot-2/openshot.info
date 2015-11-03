@@ -1,0 +1,8 @@
+PRGNAM="openshot2"
+VERSION="2.0-dev"
+HOMEPAGE="http://www.openshotvideo.com"
+DOWNLOAD="https://github.com/OpenShot"
+MD5SUM=""
+DOWNLOAD_x86_64=""
+MD5SUM_x86_64=""
+REQUIRES="gcc qt5 python3 python3-PyQt5 ffmpeg | libav imagemagick"

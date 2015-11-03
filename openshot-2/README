@@ -1,0 +1,34 @@
+OpenShot 2 is a free, open-source, non-linear Video Editor.
+It can create and edit videos and movies using many popular video,
+audio, and image formats. 
+Features include:
+      * Multiple tracks (layers)
+      * Compositing, image overlays, and watermarks
+      * Support for image sequences (rotoscoping)
+      * Key-frame animation
+      * Video and audio effects (chroma-key)
+      * Transitions (lumas and masks)
+      * 3D animation (titles and simulations)
+      * Upload videos (YouTube and Vimeo supported)
+http://www.openshot.org/
+
+OpenShot 2 is a significant revision over its previous version 1.4.3,
+now powered with its own new processing engine 'libopenshot'
+instead of the MLT framework. The code has been switched from the GTK+ 
+to Qt5 and Python3.
+
+openshot2.SlackBuild would build the following required software: 
+UnitTest++, OpenShot Audio Library (based on the JUICE project), 
+OpenShot Video Library 'libopenshot' and OpenShot-2 'openshot-qt'. 
+OpenShot-2 requires to run: qt5, python3, python3-PyQt5, ffmpeg | libav and
+imagemagick, while to compile the package the C++ (gcc), Ruby, CMake, SWIG, 
+Doxygen, and OpenMP are necessary.
+
+Blender is an optional dependency (for animated titles): if you
+use it, remember to set the full path for the blender executable
+in the preferences.
+
+The package name is going to be 'openshot2' to avoid conflicts  with the
+possibly installed 1.4.3 version of OpenShot.  Use 'launch-openshot'
+script  installed to /usr/bin to run OpenShot-2 from console, otherwise
+look at 'Multimedia'->'Openshot 2.0' in in the desktop menu.

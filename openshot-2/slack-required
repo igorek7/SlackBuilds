@@ -1,0 +1,6 @@
+gcc
+qt5 
+python3 
+python3-PyQt5 
+ffmpeg | libav 
+imagemagick

@@ -1,0 +1,232 @@
+#!/bin/bash
+# SlackBuild script for the openshot2 
+# Version 151103
+# Copyright 2015, Igor <DIO> ( igor29768 AT gmail.com )
+# based on the script for openshot-1:
+# Copyright 2010-2012, Matteo Bernardini <ponce@slackbuilds.org>
+# Copyright 2009, Jonathan Larsen (agentc0re), SLC, UT
+# All rights reserved.
+#
+# Redistribution and use of this script, with or without modification, is
+# permitted provided that the following conditions are met:
+#
+# 1. Redistributions of this script must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#
+#  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
+#  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+#  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO
+#  EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+#  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+#  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+#  OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+#  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+#  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+#  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+
+PRGNAM=openshot2
+VERSION=`date +%g%m%d`
+BUILD=${BUILD:-1}
+TAG=${TAG:-dio}
+
+if [ -z "$ARCH" ]; then
+  case "$( uname -m )" in
+    i?86) ARCH=i486 ;;
+    arm*) ARCH=arm ;;
+       *) ARCH=$( uname -m ) ;;
+  esac
+fi
+
+CWD=$(pwd)
+TMP=${TMP:-/tmp/SBo}
+PKG=$TMP/package-$PRGNAM
+OUTPUT=${OUTPUT:-/tmp}
+# <DIO>
+PREFIX=/usr
+NJOBS=${NJOBS:-$(( $(getconf _NPROCESSORS_ONLN) - 1 ))}
+# </DIO>
+
+if [ "$ARCH" = "i486" ]; then
+  SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "i686" ]; then
+  SLKCFLAGS="-O2 -march=i686 -mtune=i686"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "x86_64" ]; then
+  SLKCFLAGS="-O2 -fPIC"
+  SLKLDFLAGS="-L/usr/lib64 -fPIC"; LIBDIRSUFFIX="64"
+else
+  SLKCFLAGS="-O2"
+  LIBDIRSUFFIX=""
+fi
+
+rm -rf $PKG
+mkdir -p $TMP $PKG $OUTPUT
+cd $TMP
+
+export CFLAGS="${SLKCFLAGS}"
+export CXXFLAGS="${SLKCFLAGS}"
+
+#read -n1 -r -rsp "Press 'y' to compile UnitTest++...y/n `echo $'\n> '`" key
+
+#if [ "$key" = 'y' ]; then
+
+#    # 'y' pressed, do something
+
+if [ ! -e "unittest-cpp" ]; then
+ git clone https://github.com/unittest-cpp/unittest-cpp
+ cd ./unittest-cpp
+else
+ cd ./unittest-cpp
+ rm -rf build
+ git pull
+fi
+
+# Patching CMakeLists.txt to respect lib/lib64
+sed -i 's#lib)#lib${LIB_SUFFIX})#g' CMakeLists.txt
+
+#  -DCMAKE_LDFLAGS:STRING="$SLKLDFLAGS" \
+#  -DCMAKE_INSTALL_LIBDIR:PATH=${PREFIX}/lib${LIBDIRSUFFIX} \
+#  -DCMAKE_STATIC_LIBRARY_PREFIX:STRING=lib${LIBDIRSUFFIX} \
+
+mkdir build
+cd build
+cmake \
+   -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+   -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+   -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+   -DLIB_INSTALL_DIR:PATH=${PREFIX}/lib${LIBDIRSUFFIX} \
+   -DLIB_SUFFIX=${LIBDIRSUFFIX} \
+   -DCMAKE_BUILD_TYPE=Release .. \
+   2>&1 | tee $OUTPUT/configure-${PRGNAM}.log
+make -j${NJOBS} 2>&1 | tee $OUTPUT/make-${PRGNAM}.log
+make install
+make install DESTDIR=$PKG
+cd ../../
+
+#fi
+
+#read -n1 -r -rsp "Press 'y' to compile libopenshot-audio...y/n `echo $'\n> '`" key
+
+#if [ "$key" = 'y' ]; then
+
+if [ ! -e "libopenshot-audio" ]; then
+# bzr branch -Ossl.cert_reqs=none lp:~openshot.code/libopenshot/libopenshot-audio
+ git clone https://github.com/OpenShot/libopenshot-audio.git 
+ cd ./libopenshot-audio/
+else
+ cd ./libopenshot-audio/
+ rm -rf build
+ git pull --rebase
+# bzr pull -Ossl.cert_reqs=none
+fi
+
+mkdir build
+cd build
+cmake \
+   -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+   -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+   -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+   -DCMAKE_INSTALL_LIBDIR=${PREFIX}/lib${LIBDIRSUFFIX} \
+   -DLIB_INSTALL_DIR:PATH=${PREFIX}/lib${LIBDIRSUFFIX} \
+   -DLIB_SUFFIX=${LIBDIRSUFFIX} \
+   -DCMAKE_BUILD_TYPE=Release .. \
+   2>&1 | tee -a $OUTPUT/configure-${PRGNAM}.log
+make -j${NJOBS} 2>&1 | tee -a $OUTPUT/make-${PRGNAM}.log
+make install
+make install DESTDIR=$PKG
+
+cd ../../
+
+#fi
+
+#read -n1 -r -rsp "Press 'y' to compile libopenshot...y/n `echo $'\n> '`" key
+
+#if [ "$key" = 'y' ]; then
+
+if [ ! -e "libopenshot" ]; then
+# bzr branch -Ossl.cert_reqs=none lp:libopenshot
+ git clone https://github.com/OpenShot/libopenshot.git
+ cd ./libopenshot/
+else
+ cd ./libopenshot/
+ rm -rf build
+ git pull --rebase
+# bzr pull -Ossl.cert_reqs=none
+fi
+
+mkdir build
+cd build
+cmake \
+   -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+   -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+   -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+   -DCMAKE_INSTALL_LIBDIR=${PREFIX}/lib${LIBDIRSUFFIX} \
+   -DLIB_INSTALL_DIR:PATH=${PREFIX}/lib${LIBDIRSUFFIX} \
+   -DLIB_SUFFIX=${LIBDIRSUFFIX} \
+   -DCMAKE_BUILD_TYPE=Release .. \
+   2>&1 | tee -a $OUTPUT/configure-${PRGNAM}.log
+make -j${NJOBS} 2>&1 | tee -a $OUTPUT/make-${PRGNAM}.log
+# cmake -DCMAKE_PREFIX_PATH=/qt5_path/qt5/5.2.0/ ../
+make test 2>&1 | tee -a $OUTPUT/make-${PRGNAM}.log
+make doc 2>&1 | tee -a $OUTPUT/make-${PRGNAM}.log
+make install
+make install DESTDIR=$PKG
+
+cd ../../
+
+#fi
+
+#read -n1 -r -rsp "Press space to compile openshot2...y/n `echo $'\n> '`" key
+
+#if [ "$key" = 'y' ]; then
+
+# if [ ! -e "2.0" ]; then
+#  bzr branch -Ossl.cert_reqs=none lp:openshot/2.0
+ if [ ! -e "openshot-qt" ]; then
+  git clone https://github.com/OpenShot/openshot-qt.git
+  cd ./openshot-qt
+ else
+  cd ./openshot-qt/
+  rm -rf openshot_qt
+  rm -rf build
+  git pull --rebase
+#  bzr pull -Ossl.cert_reqs=none
+ fi
+
+# sed -i 's#openshot.desktop#openshot2.desktop#g' setup.py
+
+ python3 setup.py build 2>&1 | tee -a $OUTPUT/make-${PRGNAM}.log
+ python3 setup.py install -O1 --skip-build --root=${PKG}
+#python3 freeze.py build
+#
+# Rename to avoid conflicts with openshot-1
+cd $PKG/usr/share/applications ; mv openshot.desktop openshot2.desktop
+cd $PKG/usr/share/mime/packages ; mv openshot.xml openshot2.xml
+# Correct 'Categories' since OpenShot-2 is no more 'GNOME;GTK'
+desktop-file-edit \
+ --remove-category="GTK" \
+ --remove-category="GNOME" \
+ --add-category="Qt" \
+ ${PKG}/usr/share/applications/openshot2.desktop || exit 1
+
+find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF \
+  | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
+
+mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
+cd $TMP/openshot-qt
+cp -a AUTHORS COPYING README \
+    $PKG/usr/doc/$PRGNAM-$VERSION
+cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
+cat $CWD/README > $PKG/usr/doc/$PRGNAM-$VERSION/SlackBuild-README
+
+mkdir -p $PKG/install
+cat $CWD/slack-desc > $PKG/install/slack-desc
+cat $CWD/slack-required > $PKG/install/slack-required
+cat $CWD/doinst.sh > $PKG/install/doinst.sh
+
+cd $PKG
+/sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-txz}
+
+#fi

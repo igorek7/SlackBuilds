@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.
+# Line up the first '|' above the ':' following the base package name, and
+# the '|' on the right side marks the last column you can put a character in.
+# You must make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':' except on otherwise blank lines.
+
+         |-----handy-ruler-----------------------------------------------------|
+openshot2: openshot version 2 (open-source video editor)
+openshot2:
+openshot2: openshot2 Video Editor is a free, open-source, non-linear video editor.
+openshot2: It can create and edit videos and movies using many popular video,
+openshot2: audio, and image formats.
+openshot2:
+openshot2: homepage: http://www.openshot.org
+openshot2:
+openshot2:
+openshot2:
+openshot2:
