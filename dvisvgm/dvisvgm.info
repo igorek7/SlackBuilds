@@ -1,0 +1,8 @@
+PRGNAM="dvisvgm"
+VERSION="1.11"
+HOMEPAGE="http://dvisvgm.bplaced.net"
+DOWNLOAD="https://github.com/mgieseki/dvisvgm/releases/download/1.11/dvisvgm-1.11.tar.gz"
+MD5SUM="36d1e21fe47e104bd9c018b6414c249e"
+DOWNLOAD_x86_64=""
+MD5SUM_x86_64=""
+REQUIRES="freetype ghostscript potrace tetex|texlive zlib"
