@@ -84,15 +84,18 @@ find -L . \
 # Libkpathsea check...
 # If Slackware tetex is installed
 if [ -d /usr/share/texmf/include/kpathsea ] && [ ! -e /usr/include/kpathsea ]; then
-    ln -s /usr/share/texmf/include/kpathsea /usr/include/kpathsea
+#    ln -s /usr/share/texmf/include/kpathsea /usr/include/kpathsea
+export CPPFLAGS="${CPPFLAGS} -I/usr/share/texmf/include/"
 fi
 
-if [ ! -e /usr/lib${LIBDIRSUFFIX}/libkpathsea.a ] && [ -e /usr/share/texmf/lib/libkpathsea.a ]; then
-    ln -s /usr/share/texmf/lib/libkpathsea.a /usr/lib${LIBDIRSUFFIX}/libkpathsea.a
-fi
+#if [ ! -e /usr/lib${LIBDIRSUFFIX}/libkpathsea.a ] && [ -e /usr/share/texmf/lib/libkpathsea.a ]; then
+#    ln -s /usr/share/texmf/lib/libkpathsea.a /usr/lib${LIBDIRSUFFIX}/libkpathsea.a
+#fi
 
 if [ ! -e /usr/lib${LIBDIRSUFFIX}/libkpathsea.la ] && [ -e /usr/share/texmf/lib/libkpathsea.la ]; then
-    ln -s /usr/share/texmf/lib/libkpathsea.la /usr/lib${LIBDIRSUFFIX}/libkpathsea.la
+#    ln -s /usr/share/texmf/lib/libkpathsea.la /usr/lib${LIBDIRSUFFIX}/libkpathsea.la
+export LIBS="${LIBS} -l/usr/share/texmf/lib/"
+export LDFLAGS="${LDFLAGS} -L/usr/share/texmf/lib/"
 fi
 
 CFLAGS="$SLKCFLAGS" \
