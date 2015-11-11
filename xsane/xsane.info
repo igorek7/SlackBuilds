@@ -1,0 +1,8 @@
+PRGNAM="xsane"
+VERSION="0.999"
+HOMEPAGE="http://www.xsane.org"
+DOWNLOAD="http://www.xsane.org/download/xsane-0.999.tar.gz
+          ftp://ftp.slackware.com/.2/slackware/slackware64-current/source/xap/xsane/*.patch.gz"
+MD5SUM="9927f21e1ab6ba96315e7f0e30746deb"
+REQUIRES="sane atk cairo fontconfig freetype gdk-pixbuf2 glib2 gtk+2 lcms2"
+OPTIONAL="gimp gocr|tesseract|cuneiform"

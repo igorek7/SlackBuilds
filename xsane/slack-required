@@ -1,0 +1,16 @@
+atk
+cairo
+fontconfig
+freetype
+gdk-pixbuf2
+gimp (optional)
+glib2
+gocr | tesseract | cuneiform (for OCR)
+gtk+2
+lcms2
+libjpeg-turbo
+libpng
+libtiff
+pango
+sane
+zlib

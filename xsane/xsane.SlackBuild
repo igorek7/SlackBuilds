@@ -1,0 +1,430 @@
+#!/bin/sh
+#-- xsane for Slackware --
+# SlackBuild Version: 151111
+# Suggested usage: $ xsane.SlackBuild 2>&1 | tee build.log
+#--
+# Copyright 2015 Igor <DIO> ( igor29768 AT gmail.com )
+# Copyright 2008, 2009, 2011, 2015  Patrick J. Volkerding, Sebeka, MN, USA
+# Copyright 2008-2014 Phantom X, Goiania, Brazil.<megaphantomx at bol.com.br>
+# Copyright 2006 Martijn Dekker, Groningen, Netherlands.
+# All rights reserved.
+# Redistribution and use of this script, with or without modification, is
+# permitted provided that the following conditions are met:
+#
+# 1. Redistributions of this script must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#
+#  THIS SOFTWARE IS PROVIDED BY THE AUTHOR `AS IS'' AND ANY EXPRESS OR IMPLIED
+#  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+#  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO
+#  EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+#  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+#  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+#  OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+#  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+#  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+#  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+#  http://www.xsane.org/
+
+PRGNAM=xsane
+
+VERSION=${VERSION:-0.999}
+#VERSION=`date +%g%m%d`
+
+BUILD=${BUILD:-1}
+TAG=${TAG:-dio}
+
+CWD=$(pwd)
+TMP=${TMP:-/tmp/SBo}
+if [ ! -d ${TMP} ]; then
+  mkdir -p ${TMP}
+fi
+PKG=${PKG:-${TMP}/package-${PRGNAM}}
+
+
+# Automatically determine the architecture we're building on:
+if [ -z "$ARCH" ]; then
+  case "$( uname -m )" in
+    i?86) export ARCH=i486 ;;
+    arm*) export ARCH=arm ;;
+    # Unless $ARCH is already set, use uname -m for all other archs:
+       *) export ARCH=$( uname -m ) ;;
+  esac
+fi
+
+
+NJOBS=${NJOBS:-$(( $(getconf _NPROCESSORS_ONLN) - 1 ))}
+
+if [ "$ARCH" = "i486" ]; then
+  SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+elif [ "$ARCH" = "s390" ]; then
+  SLKCFLAGS="-O2"
+elif [ "$ARCH" = "x86_64" ]; then
+  SLKCFLAGS="-O2 -fPIC"
+  LIBDIRSUFFIX="64"
+else
+  SLKCFLAGS="-O2"
+fi     
+
+DOCDIR=${PKG}/usr/doc/${PRGNAM}-${VERSION}
+
+SBDIR=${PKG}/usr/src/slackbuilds/${PRGNAM}
+OUTPUT=${OUTPUT:-/tmp}
+PKGFORMAT=${PKGFORMAT:-txz}
+PKGNAME=${PRGNAM}-$(echo ${VERSION} | tr - . )-${ARCH}-${BUILD}${TAG}
+
+# Set to YES to enable gimp support
+SB_GIMP=${SB_GIMP:-YES}
+
+DATE=$(LC_ALL=C date +%d-%b-%Y)
+
+SRCDIR=${PRGNAM}-${VERSION}
+SRCARCHIVE=${SRCDIR}.tar.gz
+
+DL_PROG=${DL_PROG:-wget}
+DL_TO=${DL_TO:-5}
+DL_OPTS=${DL_OPTS:-"--timeout=${DL_TO}"}
+DL_URL="http://www.xsane.org/download/${SRCARCHIVE}"
+
+# if source is not present, download in source rootdir if possible, or in /tmp
+test -r ${CWD}/${SRCARCHIVE} || ${DL_PROG} ${DL_OPTS} ${DL_URL} || exit 1
+
+# Download available patches to $(CWD)/patches/ directory
+if [ ! -e ${CWD}/patches ]; then
+ mkdir -p patches
+fi
+DL_OPT2=${DL_OPT2:-"-c -P patches --timeout=${DL_TO}"}
+${DL_PROG} ${DL_OPT2} ftp://ftp.slackware.com/.2/slackware/slackware64-current/source/xap/xsane/*.patch.gz
+
+if [ -d ${PKG} ]; then
+  # Clean up a previous build
+  rm -rf ${PKG}
+fi
+mkdir -p ${PKG}
+
+cd ${TMP}
+rm -rf ${SRCDIR}
+tar -xvf ${CWD}/${SRCARCHIVE} || exit 1
+cd ${SRCDIR} || exit 1
+
+# Apply patches:
+PDIR="$CWD/patches"
+zcat $PDIR/xsane-0.995-xdg-open.patch.gz | patch -p1 --verbose || exit 1
+zcat $PDIR/xsane-0.995-close-fds.patch.gz | patch -p1 --verbose || exit 1
+zcat $PDIR/xsane-0.996-no-eula.patch.gz | patch -p1 --verbose || exit 1
+zcat $PDIR/xsane-0.997-off-root-build.patch.gz | patch -p1 --verbose || exit 1
+zcat $PDIR/xsane-0.999-no-file-selected.patch.gz | patch -p1 --verbose || exit 1
+zcat $PDIR/xsane-0.997-ipv6.patch.gz | patch -p1 --verbose || exit 1
+zcat $PDIR/xsane-0.998-preview-selection.patch.gz | patch -p1 --verbose || exit 1
+zcat $PDIR/xsane-0.998-libpng.patch.gz | patch -p1 --verbose || exit 1
+zcat $PDIR/xsane-0.998-wmclass.patch.gz | patch -p1 --verbose || exit 1
+zcat $PDIR/xsane-0.998-desktop-file.patch.gz | patch -p1 --verbose || exit 1
+zcat $PDIR/xsane-0.999-man-page.patch.gz | patch -p1 --verbose || exit 1
+zcat $PDIR/xsane-0.999-pdf-no-high-bpp.patch.gz | patch -p1 --verbose || exit 1
+zcat $PDIR/xsane-0.999-lcms2.patch.gz | patch -p1 --verbose || exit 1
+zcat $PDIR/xsane-0.999-coverity.patch.gz | patch -p1 --verbose || exit 1
+zcat $PDIR/xsane-0.999-snprintf-update.patch.gz | patch -p1 --verbose || exit 1
+zcat $PDIR/xsane-0.999-signal-handling.patch.gz | patch -p1 --verbose || exit 1
+zcat $PDIR/xsane-0.999-7-autoconf.patch.gz | patch -p1 --verbose || exit 
+
+chown -R root:root .
+find . \
+ \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
+ -exec chmod 755 {} \; -o \
+ \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+ -exec chmod 644 {} \;
+
+
+[ "${SB_GIMP}" = "YES" ] || SB_GIMPOPTS='--disable-gimp'
+
+if [ "${SB_AUTOGEN}" = "YES" ] ;then
+  autoconf -f || exit $?
+fi
+
+CFLAGS="${SLKCFLAGS}" \
+CXXFLAGS="${SLKCFLAGS}" \
+./configure \
+  --prefix=/usr \
+  --libdir=/usr/lib${LIBDIRSUFFIX} \
+  --sysconfdir=/etc \
+  --localstatedir=/var/lib \
+  --infodir=/usr/info \
+  --mandir=/usr/man \
+  --docdir=/usr/doc/${PRGNAM}-${VERSION} \
+  ${SB_GIMPOPTS} \
+  --build=${SLKTARGET}-${SLKDTARGET}-linux || exit 1
+
+make -j${NJOBS} || make || exit 1
+make install DESTDIR=${PKG} || exit 1
+
+# <DIO>
+# Check if gimp-2.9 is installed to /opt/gimp-2.9
+# to re-compile and install the plugin to /opt/gimp-2.9/lib/gimp/2.0/plug-ins
+# as well
+
+if [ "${SB_GIMP}" = "YES" ] && [ -d /opt/gimp-2.9 ]; then
+ make clean
+ CFLAGS="$SLKCFLAGS" \
+ CXXFLAGS="$SLKCFLAGS" \
+ PKG_CONFIG_PATH="/opt/gimp-2.9/lib${LIBDIRSUFFIX}/pkgconfig" \
+ LDFLAGS="-Wl,-rpath -Wl,/opt/gimp-2.9/lib${LIBDIRSUFFIX}" \
+./configure \
+  --prefix=/opt/gimp-2.9 \
+  --sysconfdir=/opt/gimp-2.9/etc \
+  --libdir=/opt/gimp-2.9/lib${LIBDIRSUFFIX} \
+  --localstatedir=/var/lib \
+  --infodir=/usr/info \
+  --mandir=/usr/man \
+  --docdir=/usr/doc/${PRGNAM}-${VERSION} \
+  ${SB_GIMPOPTS} \
+  --disable-nls \
+  --disable-sanetest \
+  --build=${SLKTARGET}-${SLKDTARGET}-linux || exit 1
+
+make -j${NJOBS} || make || exit 1
+##make install DESTDIR=${PKG} || exit 1
+
+# Simply add some files to the package dir
+mkdir -p $PKG/opt/gimp-2.9/lib${LIBDIRSUFFIX}/gimp/2.0/plug-ins/
+install -D -m0755 src/xsane $PKG/opt/gimp-2.9/lib${LIBDIRSUFFIX}/gimp/2.0/plug-ins/
+ 
+fi
+# </DIO>
+
+rmdir ${PKG}/usr/sbin
+
+find ${PKG} | xargs file | grep -e "executable" -e "shared object" | grep ELF \
+  | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
+
+mkdir -p ${PKG}/usr/share/applications
+cat > ${PKG}/usr/share/applications/${PRGNAM}.desktop <<EOF
+[Desktop Entry]
+Type=Application
+Name=XSane Scanner Tool
+GenericName=Scanner Tool
+Comment=Scan images to view, copy, fax or email them
+Exec=xsane
+TryExec=xsane
+Icon=xsane
+Terminal=false
+Categories=Graphics;2DGraphics;RasterGraphics;Scanning;GTK;
+StartupNotify=true
+EOF
+
+for res in 16 32 48 ;do
+  dir=${PKG}/usr/share/icons/hicolor/${res}x${res}/apps
+  mkdir -p ${dir}
+  install -p -m0644 src/${PRGNAM}-${res}x${res}.png ${dir}/${PRGNAM}.png || exit 1
+done
+
+# Add a documentation directory:
+mkdir -p ${DOCDIR}
+cp -a \
+  xsane.* ${CWD}/ChangeLog.SB \
+  ${DOCDIR}/
+rm -f ${DOCDIR}/xsane.spec*
+ln -s ../../share/sane/xsane/doc ${DOCDIR}/html
+find ${DOCDIR}/ -type d -print0 | xargs -0 chmod 0755
+find ${DOCDIR}/ -type f -print0 | xargs -0 chmod 0644
+
+# Compress and link manpages, if any:
+if [ -d ${PKG}/usr/share/man ]; then
+  mv ${PKG}/usr/share/man ${PKG}/usr/man
+  rmdir ${PKG}/usr/share
+fi
+if [ -d ${PKG}/usr/man ]; then
+  ( cd ${PKG}/usr/man
+    for manpagedir in $(find . -type d -name "man*") ; do
+      ( cd ${manpagedir}
+        for eachpage in $( find . -type l -maxdepth 1) ; do
+          ln -s $( readlink ${eachpage} ).gz ${eachpage}.gz
+          rm -f ${eachpage}
+        done
+        gzip -9 *.?
+        # Prevent errors
+        rm -f *.gz.gz
+      )
+    done
+  )
+fi
+
+# Compress info pages, if any:
+if [ -d ${PKG}/usr/info ]; then
+  ( cd ${PKG}/usr/info
+    rm -f dir
+    gzip -9 *.info*
+  )
+fi
+
+mkdir -p ${PKG}/install
+cat ${CWD}/slack-desc > ${PKG}/install/slack-desc
+cat ${CWD}/slack-required > ${PKG}/install/slack-required
+
+cat > ${PKG}/install/doinst.sh <<EOF
+#!/bin/sh
+# Figure out our root directory
+ROOTDIR=\$(pwd)
+unset CHROOT
+if test "\${ROOTDIR}" != "/"; then
+  CHROOT="chroot \${ROOTDIR} "
+  ROOTDIR="\${ROOTDIR}/"
+fi
+# Install the info files for this package
+if [ -x usr/bin/install-info ] ; then
+  \${CHROOT} /usr/bin/install-info --info-dir=/usr/info usr/info/${PRGNAM}.info.gz 2>/dev/null
+fi
+config() {
+  NEW="\$1"
+  OLD="\$(dirname \$NEW)/\$(basename \$NEW .new)"
+  # If there's no config file by that name, mv it over:
+  if [ ! -r \$OLD ]; then
+    mv \$NEW \$OLD
+  elif [ "\$(cat \$OLD | md5sum)" = "\$(cat \$NEW | md5sum)" ]; then
+    # toss the redundant copy
+    rm \$NEW
+  fi
+  # Otherwise, we leave the .new copy for the admin to consider...
+}
+## List of conf files to check.  The conf files in your package should end in .new
+EOF
+
+#<DIO> Is this really necessary?
+if [ "${SB_GIMP}" = "YES" ] && [ -d /opt/gimp-2.9 ]; then
+echo "( cd opt/gimp-2.9/share ; rm -rf sane ; ln -sf /usr/share/sane ./)" >> ${PKG}/install/doinst.sh
+fi
+#</DIO>
+
+( cd ${PKG}
+  find etc/ -name *.new -exec echo config {} ';' | sort >> ${PKG}/install/doinst.sh
+  echo >> ${PKG}/install/doinst.sh
+)
+
+sed -i "s|_PACKAGER|${TAG}|g; s|_BUILD_DATE|${DATE}|g" \
+       ${PKG}/install/slack-desc
+
+#<DIO> Make a xsane2tess wrapper script for the Tesseract & XSane
+cat > ${PKG}/usr/bin/xsane2tess <<EOF
+#!/bin/bash
+#
+##############################################################################
+#
+#                                   xsane2tess 1.1
+#
+#                          *** tesseract made simple ***
+#
+##############################################################################
+# 
+# xsane2tess is a TesseractOCR wrapper to be able to use tesseract with xsane
+#
+#
+#
+TEMP_DIR=/tmp/      # folder for temporary files (TIFF & tesseract data)
+ERRORLOG="xsane2tess.log"  # file where STDERR goes
+TESSDATA_PREFIX=/usr/share/tessdata
+
+if [[ -z "$1"  ]]
+then
+	echo "Usage: $0 [OPTIONS]
+
+	xsane2tess is a simple wrapper script for the TesseractOCR 
+	to use it with XSane with output as a text file.
+	
+	OPTIONS:
+	-i <file1>  define input file (any image-format supported)
+	-o <file2>  define output-file (*.txt)
+	-l <lang>  define language-data tesseract should use
+	
+	Progress- & error-messages will be stored in this logfile:
+	$TEMP_DIR$ERRORLOG
+	
+	xsane2tess depends on
+	- XSane, http://www.xsane.org/
+	- TesseractOCR http://code.google.com/p/tesseract-ocr/
+
+	Some coding was stolen from 'ocube'
+	http://www.geocities.com/thierryguy/ocube.html
+	
+	This adaption is based on xsane2tess 1.0 
+	http://doc.ubuntu-fr.org/xsane2tess
+	and xsane2tess3 0.1
+	https://wiki.ubuntuusers.de/tesseract-ocr#xsane2tess
+	"
+	exit
+fi
+
+
+# get options...
+while getopts ":i:o:l:" OPTION
+do
+	case $OPTION in
+		i)  # input filename (with path)
+			FILE_PATH="$OPTARG"
+			;;
+		o )  # output filename
+			FILE_OUT="$OPTARG"
+			;;
+		l )  # Language-selection
+			TES_LANG="$OPTARG"
+			;;
+	esac
+done
+
+# redirect STDOUT to FILE_OUT
+exec 1>>$FILE_OUT
+
+# redirect STDERR to ERRORLOG
+exec 2>>$TEMP_DIR$ERRORLOG
+
+# strip path from FILE_PATH, use filename only
+IN_FILE=${FILE_PATH##*/}
+
+TXT_FILE="$TEMP_DIR""${IN_FILE%.*}"
+
+# start OCR (tesseract expands output with *.txt)
+tesseract "$IN_FILE" "$TXT_FILE" -l "$TES_LANG" 1>&2
+
+# STDOUT scanned text => FILE_OUT
+cat "$TXT_FILE".txt
+
+# delete tesseract output
+rm "$TXT_FILE".txt
+EOF
+
+chmod +x ${PKG}/usr/bin/xsane2tess
+#</DIO>
+
+
+# Build package:
+set +o xtrace        # no longer print commands upon execution
+
+ROOTCOMMANDS="set -o errexit -o xtrace ; cd ${PKG} ;
+  /bin/chown --recursive root:root .  ;"
+
+ROOTCOMMANDS="${ROOTCOMMANDS}
+  /sbin/makepkg --linkadd y --chown n ${OUTPUT}/${PKGNAME}.${PKGFORMAT} "
+
+if test ${UID} = 0; then
+  eval ${ROOTCOMMANDS}
+  set +o xtrace
+elif test "$(type -t fakeroot)" = 'file'; then
+  echo -e "\e[1mEntering fakeroot environment.\e[0m"
+  echo ${ROOTCOMMANDS} | fakeroot
+else
+  echo -e "\e[1mPlease enter your root password.\e[0m (Consider installing fakeroot.)"
+  /bin/su -c "${ROOTCOMMANDS}"
+fi
+
+# Clean up the extra stuff:
+if [ "$1" = "--cleanup" ]; then
+  echo "Cleaning..."
+  if [ -d ${TMP}/${SRCDIR} ]; then
+    rm -rf ${TMP}/${SRCDIR} && echo "${TMP}/${SRCDIR} cleanup completed"
+  fi
+  if [ -d ${PKG} ]; then
+    rm -rf ${PKG} && echo "${PKG} cleanup completed"
+  fi
+  rmdir ${TMP} && echo "${TMP} cleanup completed"
+fi
+exit 0
+

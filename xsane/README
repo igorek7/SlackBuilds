@@ -1,0 +1,16 @@
+XSane is a GTK front end for SANE 
+
+The built package will contain: the standalone 'xsane' program,
+'xsane2tess' wraper script for for OCR with tesseract and xsane,
+and the Gimp plugin, for both the gimp-2.8 and gimp-2.9 
+(if 2.9 is installed).
+
+WARNING: Plug-In "xsane"
+(/opt/gimp-2.9/lib64/gimp/2.0/plug-ins/xsane)
+calls deprecated procedure 'gimp-image-add-layer'.
+It should call 'gimp-image-insert-layer' instead!
+
+Don't forget to set your prefered OCR engine in XSane- Preferences -> OCR:
+gocr -f UTF8
+xsane2tess -l eng (tesseract --list-langs)
+cuneiform -l eng
