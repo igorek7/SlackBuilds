@@ -1,0 +1,7 @@
+Here is revised Slack Build for the Glade based on the official Slackware
+build files to:
+
+* bump the version number to 3.18.3
+* to ensure the proper library linking in "multilib" by pointing 
+  LDFLAGS="-L/usr/lib${LIBDIRSUFFIX}" before ./configure
+* Requesting doinst.sh to update icons and the desktop database

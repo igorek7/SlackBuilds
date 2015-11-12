@@ -1,0 +1,8 @@
+glib2
+atk
+cairo
+gdk-pixbuf2
+glibc
+gtk+3
+libxml2
+pango
