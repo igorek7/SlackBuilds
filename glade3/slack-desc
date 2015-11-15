@@ -13,7 +13,7 @@ glade3: interfaces for the GTK+ toolkit and the GNOME desktop environment.
 glade3: The user interfaces designed in Glade are saved as XML, and by using
 glade3: the GtkBuilder GTK+ object these can be loaded by applications
 glade3: dynamically as needed.
+glade3: This version of Glade is based on the GTK+3 GUI toolkit
 glade3:
 glade3: Homepage: http://glade.gnome.org/
-glade3:
 glade3:
