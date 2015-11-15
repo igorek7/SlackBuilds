@@ -1,7 +1,11 @@
-Here is revised Slack Build for the Glade based on the official Slackware
-build files to:
+Here is revised Slack Build for the glade3 (Glade UI Designer version 3).
+It is based on the official Slackware build files to:
 
-* bump the version number to 3.18.3
+* bump the version number to 3.18.3 (that now includes 'libgladeui',
+  which is requested by 'gtksourceview3')
 * to ensure the proper library linking in "multilib" by pointing 
   LDFLAGS="-L/usr/lib${LIBDIRSUFFIX}" before ./configure
-* Requesting doinst.sh to update icons and the desktop database
+* Requesting doinst.sh to update icons and the desktop databasePRGNAM="glade3"
+
+REQUIRED="atk cairo gdk-pixbuf2 glibc glib2 gtk+3 libxml2 pango"
+OPTIONAL="devhelp"

@@ -79,7 +79,7 @@ test -r ${CWD}/${SRCARCHIVE} || ${DL_PROG} ${DL_OPTS} ${DL_URL} || exit 1
 rm -rf $TMP/$PRGNAM-$VERSION $PKG
 mkdir -p $TMP $PKG $OUTPUT
 cd $TMP
-tar xvf $CWD/$PRGNAM-$VERSION.tar.gz
+tar xvf $CWD/${SRCARCHIVE}
 cd $TMP/$PRGNAM-$VERSION
 #if [ ! -e $PRGNAM ]; then
 # cvs -d:pserver:anonymous@vips.cvs.sourceforge.net:/cvsroot/vips login 
