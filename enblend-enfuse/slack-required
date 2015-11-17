@@ -1,0 +1,12 @@
+boost
+gsl
+hdf5
+ilmbase
+lcms2
+libjpeg-turbo
+libpng
+libtiff
+openexr
+vigra
+zlib
+xz
