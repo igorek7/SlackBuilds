@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Slackware build script for ffmpeg
-# SlackBuild Version: 151116
+# SlackBuild Version: 151118
 # Copyright2015 Igor <DIO> ( igor29768 AT gmail.com )
 # Copyright 2010-2015 Heinz Wiesinger, Amsterdam, The Netherlands
 # Copyright 2008-2015 Phantom X, Goiania, Brazil.
@@ -64,7 +64,7 @@ else
 fi
 
 NJOBS=${NJOBS:-$(( $(getconf _NPROCESSORS_ONLN) - 1 ))}
-NUMJOBS=${NUMJOBS:-" -j$NJOBS$ "}
+NUMJOBS=${NUMJOBS:-" -j$NJOBS "}
 
 # environment sanity checks
 TEXI2HTML=$(which texi2html 2>/dev/null)
