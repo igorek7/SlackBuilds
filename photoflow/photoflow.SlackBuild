@@ -6,7 +6,7 @@
 # https://plus.google.com/112083183053602237219
 # 
 # SlackBuild script is written by Igor Drozdovsky <igor29768 @ gmail.com>
-# Version 151031
+# Version 151118
 #
 # Redistribution and use of this script, with or without modification, is
 # permitted provided that the following conditions are met:
@@ -25,7 +25,7 @@
 #  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-PRGNAM=PhotoFlow
+PRGNAM=photoflow
 NAME=photoflow
 VERSION=`date +%g%m%d`
 BUILD=${BUILD:-1}

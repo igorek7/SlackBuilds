@@ -6,9 +6,9 @@
 # to leave one space after the ':'.
 
     |----handy-ruler----------------------------------------------------------|
-photoflow: PhotoFlow
+photoflow: PhotoFlow (Non-Destructive Photo Editor)
 photoflow:
-photoflow: PhotoFlow is a fully non-destructive photo editor&retouching program
+photoflow: PhotoFlow is a non-destructive photo editor&retouching program
 photoflow: that includes a complete workflow from RAW image development
 photoflow: to high-quality printing.
 photoflow:

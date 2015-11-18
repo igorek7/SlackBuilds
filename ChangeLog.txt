@@ -1,0 +1,23 @@
+------------------------
+Last modif.| Program 
+------------------------
+2015-11-18 | gimp-focusblur: (Create blur with luminosity and depth)
+2015-11-18 | asymptote: (The Vector Graphics Language)  
+2015-11-18 | photoflow: (Non-Destructive Photo Editor)   
+2015-11-18 | gthumb: (An image viewer)   
+2015-11-18 | gimp2p9: (The GNU Image Manipulation Program +BABL
+2015-11-18 | glade3: (Glade UI Designer version 3) 
+2015-11-18 | ffmpeg: (Software to record, convert and stream
+2015-11-17 | enblend-enfuse: (Image Blending and Enfusing tools) 
+2015-11-17 | openshot2: version 2 (open-source video editor) 
+2015-11-13 | vips: (Free Image Processing System)  
+2015-11-11 | xsane: (Graphical frontend to SANE, Scanner Access
+2015-11-10 | dvisvgm: (converts DVI and EPS files to
+2015-11-03 | seyon: (telecommunications package)    
+2015-10-31 | photivo: (photo processor)    
+2015-10-31 | luminance-hdr: HDR (HDR imaging application)  
+2015-10-31 | gmic: (Image converter and gimp plugin) 
+2015-10-31 | resynthesizer: (Gimp plug-in for texture synthesis) 
+2015-10-31 | ufraw: (Unindentified Flying RAW)   
+2015-10-30 | libharu: (library for generating PDF files) 
+2015-10-27 | s2plot: (3D plotting library)   

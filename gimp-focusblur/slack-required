@@ -1,0 +1,13 @@
+atk 
+babl 
+cairo 
+fftw 
+fontconfig 
+freetype 
+glib2 
+gimp | gimp2p9 
+gdk-pixbuf2 
+gegl 
+gtk+2 
+json-glib 
+pango
