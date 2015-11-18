@@ -1,6 +1,7 @@
 ------------------------
 Last modif.| Program 
 ------------------------
+2015-11-18 | cln: (class library for numbers)     
 2015-11-18 | dvisvgm: (converts DVI and EPS files to SVG -Scalable Vector
 2015-11-18 | gimp-focusblur: (Create blur with luminosity and depth)   
 2015-11-18 | asymptote: (The Vector Graphics Language)     
