@@ -1,8 +1,9 @@
 ------------------------
 Last modif.| Program 
 ------------------------
+2015-11-19 | dvisvgm: (converts DVI and EPS files to SVG -Scalable Vector
+2015-11-18 | vips: (Free Image Processing System)     
 2015-11-18 | cln: (class library for numbers)     
-2015-11-18 | dvisvgm: (converts DVI and EPS files to SVG -Scalable Vector
 2015-11-18 | gimp-focusblur: (Create blur with luminosity and depth)   
 2015-11-18 | asymptote: (The Vector Graphics Language)     
 2015-11-18 | photoflow: (Non-Destructive Photo Editor)      
@@ -12,7 +13,6 @@ Last modif.| Program
 2015-11-18 | ffmpeg: (Software to record, convert and stream audio and video)
 2015-11-17 | enblend-enfuse: (Image Blending and Enfusing tools)    
 2015-11-17 | openshot2: version 2 (open-source video editor)    
-2015-11-13 | vips: (Free Image Processing System)     
 2015-11-11 | xsane: (Graphical frontend to SANE, Scanner Access Now Easy) 
 2015-11-03 | seyon: (telecommunications package)       
 2015-10-31 | photivo: (photo processor)       

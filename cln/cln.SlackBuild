@@ -24,7 +24,7 @@
 PRGNAM=cln
 VERSION=1.3.4
 BUILD=${BUILD:-1}
-TAG=${TAG:-_SBo}
+TAG=${TAG:-dio}
 
 if [ -z "$ARCH" ]; then
   case "$( uname -m )" in

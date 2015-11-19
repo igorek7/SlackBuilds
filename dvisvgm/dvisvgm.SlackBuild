@@ -1,6 +1,6 @@
 #!/bin/sh
 # Slackware build script for dvisvgm
-# SlackBuild Version: 151118
+# SlackBuild Version: 151119
 # Copyright 2015 Igor ( igor29768 AT gmail.com )
 # Based on the SlackBuild script by Rudson Alves (rudsonalves@yahoo.com.br)
 # All rights reserved.
@@ -24,7 +24,7 @@
 
 PRGNAM=dvisvgm
 VERSION=${VERSION:-1.12}
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 TAG=${TAG:-dio}
 
 if [ -z "$ARCH" ]; then
@@ -88,7 +88,12 @@ find -L . \
 # If Slackware tetex is installed
 if [ -d /usr/share/texmf/include/kpathsea ] && [ ! -e /usr/include/kpathsea ]; then
 #    ln -s /usr/share/texmf/include/kpathsea /usr/include/kpathsea
-export CPPFLAGS="${CPPFLAGS} -I/usr/share/texmf/include/"
+#export CPPFLAGS+="$SLKCFLAGS -I/usr/share/texmf/include/"
+cp -r /usr/share/texmf/include/kpathsea/ $TMP/$PRGNAM-$VERSION
+cd kpathsea
+patch -i $CWD/c-std.h.diff
+cd ..
+export CPPFLAGS+="$SLKCFLAGS -I$TMP/$PRGNAM-$VERSION"
 fi
 
 #if [ ! -e /usr/lib${LIBDIRSUFFIX}/libkpathsea.a ] && [ -e /usr/share/texmf/lib/libkpathsea.a ]; then
@@ -97,9 +102,11 @@ fi
 
 if [ ! -e /usr/lib${LIBDIRSUFFIX}/libkpathsea.la ] && [ -e /usr/share/texmf/lib/libkpathsea.la ]; then
 #    ln -s /usr/share/texmf/lib/libkpathsea.la /usr/lib${LIBDIRSUFFIX}/libkpathsea.la
-export LIBS="${LIBS} -l/usr/share/texmf/lib/"
-export LDFLAGS="${LDFLAGS} -L/usr/share/texmf/lib/"
+LIBS+=" -l/usr/share/texmf/lib/"
+export LDFLAGS+=" -L/usr/share/texmf/lib/"
 fi
+
+echo "CPPFLAGS=$CPPFLAGS LIBS=$LIBS LDFLAGS=$LDFLAGS"
 
 CFLAGS="$SLKCFLAGS" \
 CXXFLAGS="$SLKCFLAGS" \
@@ -115,8 +122,8 @@ CXXFLAGS="$SLKCFLAGS" \
 make $NUMJOBS || make || exit 1
 make install DESTDIR=$PKG || exit 1
 
-find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
-  | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
+#find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
+#  | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
 
 find $PKG/usr/man -type f -exec gzip -9 {} \;
 for i in $( find $PKG/usr/man -type l ) ; do ln -s $( readlink $i ).gz $i.gz ; rm $i ; done
