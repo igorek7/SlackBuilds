@@ -1,6 +1,7 @@
 ------------------------
 Last modif.| Program 
 ------------------------
+2015-12-07 | gmic: (Image converter and gimp plugin)    
 2015-11-19 | dvisvgm: (converts DVI and EPS files to SVG -Scalable Vector
 2015-11-18 | vips: (Free Image Processing System)     
 2015-11-18 | cln: (class library for numbers)     
@@ -17,7 +18,6 @@ Last modif.| Program
 2015-11-03 | seyon: (telecommunications package)       
 2015-10-31 | photivo: (photo processor)       
 2015-10-31 | luminance-hdr: HDR (HDR imaging application)     
-2015-10-31 | gmic: (Image converter and gimp plugin)    
 2015-10-31 | resynthesizer: (Gimp plug-in for texture synthesis)    
 2015-10-31 | ufraw: (Unindentified Flying RAW)      
 2015-10-30 | libharu: (library for generating PDF files)    
