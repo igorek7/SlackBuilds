@@ -1,6 +1,7 @@
 ------------------------
 Last modif.| Program 
 ------------------------
+2016-02-28 | hugin: (Panorama photo stitcher)      
 2015-12-07 | gmic: (Image converter and gimp plugin)    
 2015-11-19 | dvisvgm: (converts DVI and EPS files to SVG -Scalable Vector
 2015-11-18 | vips: (Free Image Processing System)     
