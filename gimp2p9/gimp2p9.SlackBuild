@@ -37,7 +37,7 @@ PKGNAM="gimp2p9"
 SRCNAM="gimp"
 VERSION=`date +%g%m%d`
 #VERSION=${VERSION:-$(echo $PKGNAM-*.tar.?z* | rev | cut -f 3- -d . | cut -f 1 -d - | rev)}
-BUILD=${BUILD:-4}
+BUILD=${BUILD:-5}
 TAG=${TAG:-dio}
 
 # Automatically determine the architecture we're building on:
@@ -127,14 +127,35 @@ else
  git pull --rebase
 fi     
 
+export BINUTILS_LD=bfd
+
+#PKG_CONFIG_PATH="${PREFIX}/lib${LIBDIRSUFFIX}/pkgconfig" \
+#LDFLAGS="-Wl,-rpath -Wl,${PREFIX}/lib${LIBDIRSUFFIX}" \
 CFLAGS="$SLKCFLAGS" \
-PKG_CONFIG_PATH="${PREFIX}/lib${LIBDIRSUFFIX}/pkgconfig" \
-LDFLAGS="-Wl,-rpath -Wl,${PREFIX}/lib${LIBDIRSUFFIX}" \
+CXXFLAGS="${SLKCFLAGS}" \
+CPPFLAGS="${CPPFLAGS} $(pkg-config lensfun libspiro --cflags-only-I)" \
  ./autogen.sh --prefix=${PREFIX} \
   --libdir=${PREFIX}/lib${LIBDIRSUFFIX} \
-  --enable-gtk-doc-html=no --enable-workshop \
+  --with-cairo \
+  --with-graphviz \
+  --with-libjpeg \
+  --with-libopenraw \
+  --with-libpng \
+  --with-librsvg \
+  --with-libspiro \
+  --with-libv4l \
+  --with-lua \
+  --without-exiv2 \
+  --with-openexr \
+  --with-pango --with-pangocairo \
+  --with-sdl \
+  --enable-gtk-doc-html=no --disable-workshop \
   --without-libavformat --without-vala \
+  --disable-docs \
   --build=$ARCH-slackware-linux
+  
+sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+
 ## #[ -f gegl/gegl-0.3.deps ] || echo 'Babl-0.1' > gegl/gegl-0.3.deps
 ## BABL_CFLAGS="-I$PKG/${PREFIX}/include/babl-0.1" \
 #./configure --prefix=${PREFIX} \
