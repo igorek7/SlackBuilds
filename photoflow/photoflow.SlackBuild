@@ -6,7 +6,7 @@
 # https://plus.google.com/112083183053602237219
 # 
 # SlackBuild script is written by Igor Drozdovsky <igor29768 @ gmail.com>
-# Version 151118
+# Version 160509
 #
 # Redistribution and use of this script, with or without modification, is
 # permitted provided that the following conditions are met:
@@ -135,7 +135,7 @@ cat $CWD/slack-required > $PKG/install/slack-required
 for res in 16 20 22 24 32 36 48 ;do
   dir=${PKG}/usr/share/icons/hicolor/${res}x${res}/apps
   mkdir -p ${dir}
-  convert ${CWD}/photoflow.Orig.png -filter Lanczos -resize ${res}x${res} \
+  convert ${CWD}/photoflow.Orig.svg -filter Lanczos -resize ${res}x${res} \
    -depth 8 ${dir}/photoflow.png || exit 1
 done
 convert ${CWD}/photoflow.Orig.png -filter Lanczos -resize 128x128 -depth 8 \

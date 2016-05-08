@@ -3,6 +3,7 @@ gettext
 glib >= 2.0
 libxml >= 2.0
 pkg-config
+pugixml
 swig
 gtk-doc-tools
 automake
