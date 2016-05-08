@@ -1,10 +1,10 @@
 ------------------------
 Last modif.| Program 
 ------------------------
+2016-05-08 | gmic: (Image converter and gimp plugin)    
 2016-04-01 | gimp2p9: (The GNU Image Manipulation Program +BABL + GEGL -git-)
 2016-02-28 | ffmpeg: (Software to record, convert and stream audio and video)
 2016-02-28 | hugin: (Panorama photo stitcher)      
-2015-12-07 | gmic: (Image converter and gimp plugin)    
 2015-11-19 | dvisvgm: (converts DVI and EPS files to SVG -Scalable Vector
 2015-11-18 | vips: (Free Image Processing System)     
 2015-11-18 | cln: (class library for numbers)     

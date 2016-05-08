@@ -3,7 +3,7 @@
 # Slackware build script for G'MIC, inculding the Gimp plugin
 #      A Full-Featured Open-Source Framework for Image Processing 
 #               complete G'Mic source
-# Copyright 2015 <DIO> igor29768 @ gmail.com
+# Copyright 2015-2016 <DIO> igor29768 @ gmail.com
 # Copyright 2011-2015 Corrado Franco (http://conraid.net)
 # All rights reserved.
 #
@@ -33,7 +33,7 @@ set -eu
 CWD=$(pwd)
 
 PRGNAM=${PRGNAM:-gmic}
-VERSION=${VERSION:-1.6.8}
+VERSION=${VERSION:-1.7.1}
 #VERSION=`date +%g%m%d`
 #VERSION=${VERSION:-$(echo ${PRGNAM}_*.tar.?z* | rev | cut -f3- -d. | cut -f1 -d_ | rev)}
 #PKGNAME=$(echo $PRGNAM | tr A-Z a-z)
