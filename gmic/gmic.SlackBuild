@@ -24,7 +24,7 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-# Version of this SlackBuild: 151207 
+# Version of this SlackBuild: 160710 
 #
 # Exit on most errors or unset variables
 set -eu
@@ -33,7 +33,7 @@ set -eu
 CWD=$(pwd)
 
 PRGNAM=${PRGNAM:-gmic}
-VERSION=${VERSION:-1.7.1}
+VERSION=${VERSION:-1.7.3}
 #VERSION=`date +%g%m%d`
 #VERSION=${VERSION:-$(echo ${PRGNAM}_*.tar.?z* | rev | cut -f3- -d. | cut -f1 -d_ | rev)}
 #PKGNAME=$(echo $PRGNAM | tr A-Z a-z)
