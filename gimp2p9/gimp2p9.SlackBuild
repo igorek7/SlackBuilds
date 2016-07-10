@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Slackware build script for the Development Version of the GIMP+BABL+GEGL
-# SlackBuild Version: 151118
+# SlackBuild Version: 160710
 # 
 # Copyright 2008, 2009, 2010, 2011  Patrick J. Volkerding, Sebeka, MN, USA
 # Copyright 2015  <DIO> igor29768 AT gmail.com
@@ -32,6 +32,7 @@
 # http://ninedegreesbelow.com/photography/build-gimp-in-prefix-for-artists.html
 # http://crunchbang.org/forums/viewtopic.php?id=25716
 # http://www.gimp.org/source/howtos/gimp-git-build.html
+# 160710 Added libmypaint-gegl from git since gimp now requires ver.1.3
 
 PKGNAM="gimp2p9"
 SRCNAM="gimp"
@@ -165,7 +166,34 @@ make install
 make install DESTDIR=$PKG || exit 1
 cd ..
 
-#/sbin/ldconfig
+/sbin/ldconfig
+
+# 160710 Added libmypaint from git
+# Getting the Development versions of libmypaint
+if [ ! -e libmypaint ]; then
+  git clone https://github.com/mypaint/libmypaint.git libmypaint
+  cd libmypaint
+else   
+  cd libmypaint
+  make clean
+  git pull --rebase
+fi     
+
+CFLAGS="$SLKCFLAGS" \
+LDFLAGS="-Wl,${PREFIX}/lib${LIBDIRSUFFIX}" \
+./autogen.sh 
+
+CFLAGS="$SLKCFLAGS" \
+./configure \
+  --libdir=${PREFIX}/lib${LIBDIRSUFFIX} \
+  --enable-gegl \
+  --disable-docs \
+  --build=$ARCH-slackware-linux
+make -j${NUMJOBS}
+make install
+make install DESTDIR=$PKG || exit 1
+cd ..
+
 
 #if [ ! -e $PRGNAM ]; then
 # git clone git://git.gnome.org/gimp ${PRGNAM}

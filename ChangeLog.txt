@@ -1,9 +1,9 @@
 ------------------------
 Last modif.| Program 
 ------------------------
+2016-07-10 | gimp2p9: (The GNU Image Manipulation Program +BABL + GEGL -git-)
 2016-05-08 | photoflow: (Non-Destructive Photo Editor)      
 2016-05-08 | gmic: (Image converter and gimp plugin)    
-2016-04-01 | gimp2p9: (The GNU Image Manipulation Program +BABL + GEGL -git-)
 2016-02-28 | ffmpeg: (Software to record, convert and stream audio and video)
 2016-02-28 | hugin: (Panorama photo stitcher)      
 2015-11-19 | dvisvgm: (converts DVI and EPS files to SVG -Scalable Vector
