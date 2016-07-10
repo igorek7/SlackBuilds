@@ -1,8 +1,8 @@
 #!/bin/sh
 
 # Slackware build script for glade3
-# SlackBuild Version: 151118
-# Copyright 2015 Igor <DIO> ( igor29768 AT gmail.com )
+# SlackBuild Version: 160710
+# Copyright 2015,2016 Igor <DIO> ( igor29768 AT gmail.com )
 # Copyright 2008-2015 Phantom X, Goiania, Brazil
 # Copyright 2010, 2011  Robby Workman, Northport, Alabama, USA
 # All rights reserved.
@@ -26,7 +26,7 @@
 
 PKGNAM=glade3
 VERSION=${VERSION:-3.18.3}
-#VERSION=${VERSION:-$(echo $PKGNAM-*.tar.?z* | rev | cut -f 3- -d . | cut -f 1 -d - | rev)}
+SVER=${SVER:-$(echo $VERSION | rev | cut -f 2- -d . | rev)}
 BUILD=${BUILD:-1}
 TAG=${TAG:-dio}
 
@@ -69,8 +69,8 @@ SSRCARCHIVE=${SRCDIR}.sha256sum
 DL_PROG=${DL_PROG:-wget}
 DL_TO=${DL_TO:-5}
 DL_OPTS=${DL_OPTS:-"--timeout=${DL_TO}"}
-MIRROR_GNOME=${MIRROR_GNOME:-http://ftp.gnome.org/pub/GNOME/sources}
-DL_URL="${MIRROR_GNOME}/${NAME}/${SVER}"
+MIRROR_GNOME=${MIRROR_GNOME:-http://ftp.acc.umu.se/pub/GNOME/sources}
+DL_URL="${MIRROR_GNOME}/glade/${SVER}"
 
 # if source is not present, download in source rootdir if possible
 for file in ${SRCARCHIVE} ${SSRCARCHIVE} ;do
@@ -161,6 +161,7 @@ if [ -x usr/bin/gtk-update-icon-cache ]; then
   \${CHROOT} /usr/bin/touch --no-create /usr/share/icons/hicolor > /dev/null 2>&1      
   \${CHROOT} /usr/bin/gtk-update-icon-cache -q /usr/share/icons/hicolor > /dev/null 2>&1
 fi
+EOF
 
 cd $PKG
 /sbin/makepkg -l y -c n $TMP/$PKGNAM-$VERSION-$ARCH-$BUILD.txz
