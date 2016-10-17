@@ -33,7 +33,7 @@ set -eu
 CWD=$(pwd)
 
 PRGNAM=${PRGNAM:-gmic}
-VERSION=${VERSION:-1.7.3}
+VERSION=${VERSION:-1.7.7}
 #VERSION=`date +%g%m%d`
 #VERSION=${VERSION:-$(echo ${PRGNAM}_*.tar.?z* | rev | cut -f3- -d. | cut -f1 -d_ | rev)}
 #PKGNAME=$(echo $PRGNAM | tr A-Z a-z)

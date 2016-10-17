@@ -1,7 +1,7 @@
 #!/bin/bash
 # SlackBuild script for the openshot2 
-# Version 151103
-# Copyright 2015, Igor <DIO> ( igor29768 AT gmail.com )
+# Version 160717
+# Copyright 2015-2016 Igor <DIO> ( igor29768 AT gmail.com )
 # based on the script for openshot-1:
 # Copyright 2010-2012, Matteo Bernardini <ponce@slackbuilds.org>
 # Copyright 2009, Jonathan Larsen (agentc0re), SLC, UT
@@ -202,8 +202,9 @@ cd ../../
 #python3 freeze.py build
 #
 # Rename to avoid conflicts with openshot-1
-cd $PKG/usr/share/applications ; mv openshot.desktop openshot2.desktop
-cd $PKG/usr/share/mime/packages ; mv openshot.xml openshot2.xml
+#cd $PKG/usr/share/applications ; mv openshot.desktop openshot2.desktop
+cd $PKG/usr/share/applications ; mv openshot-qt.desktop openshot2.desktop
+cd $PKG/usr/share/mime/packages ; mv openshot-qt.xml openshot2.xml
 # Correct 'Categories' since OpenShot-2 is no more 'GNOME;GTK'
 desktop-file-edit \
  --remove-category="GTK" \

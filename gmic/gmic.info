@@ -1,6 +1,6 @@
 PRGNAM="gmic"
-VERSION="1.7.3"
+VERSION="1.7.7"
 HOMEPAGE="http://gmic.eu"
-DOWNLOAD="http://gmic.eu/files/source/gmic_1.7.3.tar.gz"
+DOWNLOAD="http://gmic.eu/files/source/gmic_1.7.7.tar.gz"
 MD5SUM="840ded5492d4435dbd1cb858e7f5f3bd"
 REQUIRES="curl fftw gimp gtk2 mesa openexr opencv qt libjpeg-turbo libpng libtiff"
