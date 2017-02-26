@@ -1,8 +1,8 @@
 #!/bin/sh
 
 # Slackware build script for ffmpeg
-# SlackBuild Version: 160228
-# Copyright2015 Igor <DIO> ( igor29768 AT gmail.com )
+# SlackBuild Version: 161127
+# Copyright 2016 Igor <DIO> ( igor29768 AT gmail.com )
 # Copyright 2010-2015 Heinz Wiesinger, Amsterdam, The Netherlands
 # Copyright 2008-2015 Phantom X, Goiania, Brazil.
 # All rights reserved.
@@ -30,7 +30,7 @@
 PRGNAM=ffmpeg
 #VERSION=${VERSION:-2.8.2}
 VERSION=`date +%g%m%d`
-BUILD=${BUILD:-3}
+BUILD=${BUILD:-4}
 TAG=${TAG:-dio}
 
 if [ -z "$ARCH" ]; then
@@ -129,7 +129,7 @@ decklink=""   ; [ "${DECKLINK:-no}" != "no" ]   && \
     SLKCFLAGS="$SLKCFLAGS -I/usr/include/decklink" ; }
 
 # zeromq support requires zeromq > 3.x
-#libzmq=""     ; [ "${ZMQ:-no}" != "no" ]          && libzmq="--enable-libzmq"
+libzmq=""     ; [ "${ZMQ:-no}" != "no" ]          && libzmq="--enable-libzmq"
 
 set -e
 
@@ -190,6 +190,7 @@ CXXFLAGS="$SLKCFLAGS" \
   --enable-libcaca \
   --enable-libsmbclient \
   --enable-opengl \
+  --enable-avresample \
   --arch=$ARCH \
   $openjpeg \
   $libdc1394 \

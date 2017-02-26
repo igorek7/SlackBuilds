@@ -117,6 +117,8 @@ LDFLAGS="-Wl,-rpath -Wl,${PREFIX}/lib${LIBDIRSUFFIX}" \
 make -j${NUMJOBS}
 make install
 make install DESTDIR=$PKG || exit 1
+# Added 170220
+libtool --finish /opt/gimp-2.9/lib64/babl-0.1
 cd ..
 
 if [ ! -e gegl ]; then

@@ -27,7 +27,7 @@
 
 PRGNAM=openshot2
 VERSION=`date +%g%m%d`
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 TAG=${TAG:-dio}
 
 if [ -z "$ARCH" ]; then
@@ -154,6 +154,11 @@ else
  rm -rf build
  git pull --rebase
 # bzr pull -Ossl.cert_reqs=none
+fi
+
+if [ ! -e "zmq.hpp" ]; then 
+ wget https://raw.githubusercontent.com/zeromq/cppzmq/014628c/zmq.hpp
+ cp -p $CWD/zmq.hpp include/
 fi
 
 mkdir build

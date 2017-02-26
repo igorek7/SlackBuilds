@@ -1,13 +1,15 @@
 ------------------------
 Last modif.| Program 
 ------------------------
+2017-02-26 | freefilesync: 
+2017-02-22 | openshot2: version 2 (open-source video editor)    
+2017-02-20 | gimp2p9: (The GNU Image Manipulation Program +BABL + GEGL -git-)
+2017-02-19 | xsane: (Graphical frontend to SANE, Scanner Access Now Easy) 
+2016-11-27 | ffmpeg: (Software to record, convert and stream audio and video)
 2016-10-17 | gmic: (Image converter and gimp plugin)    
-2016-07-17 | openshot2: version 2 (open-source video editor)    
 2016-07-10 | glade3: (Glade UI Designer version 3)    
 2016-07-10 | hugin: (Panorama photo stitcher)      
-2016-07-10 | gimp2p9: (The GNU Image Manipulation Program +BABL + GEGL -git-)
 2016-05-08 | photoflow: (Non-Destructive Photo Editor)      
-2016-02-28 | ffmpeg: (Software to record, convert and stream audio and video)
 2015-11-19 | dvisvgm: (converts DVI and EPS files to SVG -Scalable Vector
 2015-11-18 | vips: (Free Image Processing System)     
 2015-11-18 | cln: (class library for numbers)     
@@ -15,7 +17,6 @@ Last modif.| Program
 2015-11-18 | asymptote: (The Vector Graphics Language)     
 2015-11-18 | gthumb: (An image viewer)      
 2015-11-17 | enblend-enfuse: (Image Blending and Enfusing tools)    
-2015-11-11 | xsane: (Graphical frontend to SANE, Scanner Access Now Easy) 
 2015-11-03 | seyon: (telecommunications package)       
 2015-10-31 | photivo: (photo processor)       
 2015-10-31 | luminance-hdr: HDR (HDR imaging application)     
