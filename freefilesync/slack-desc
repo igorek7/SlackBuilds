@@ -11,7 +11,7 @@ FreeFileSync:
 FreeFileSync: FreeFileSync is an Open-Source folder comparison and synchronization 
 FreeFileSync: tool. It is optimized for highest performance and usability without 
 FreeFileSync: restricted or overloaded UI interfaces. 
-FreeFileSync: FreeFileSync can be run on Linux and Microsoft Windows.
+FreeFileSync: FreeFileSync can be run on Linux, Mac OS and Microsoft Windows.
 FreeFileSync:
 FreeFileSync: This requires gtkmm and wxWidgets (wxGTK) or wxPython.
 FreeFileSync:

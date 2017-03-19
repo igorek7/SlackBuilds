@@ -1,0 +1,20 @@
+kdenlive-kf5 (KDE Non Linear Video Editor)
+
+Kdenlive is an intuitive and powerful non-linear multi-track video
+editor which supports DV, AVCHD and HDV editing, using many of the latest
+video technologies.
+
+Using the MLT video framework, Kdenlive provides dual video monitors,  a
+multi-track timeline and clip list. Features include customizable layout
+support, basic effects and transitions, in-program access to online
+resources from Freesound, Archive.org, and Open Clip Art. Kdenlive also
+features integrated basic DVD authoring capability.
+
+   This build is for the current KDE Frameworks (KF5) 
+        version of kdenlive-git (17.XX.X).
+
+If you do not have the KF5 installed, you will need at least:
+qt5, qt5-webkit, qt5-quickcontrols, kdelibs, kded, kfilemetada, knewstuff, 
+knotifyconfig, kdoctools
+
+For other requirements see slack-required.

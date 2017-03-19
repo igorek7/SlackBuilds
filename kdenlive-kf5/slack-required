@@ -1,0 +1,61 @@
+# -- slackware-current
+ffmpeg
+glibc
+glu 
+hicolor-icon-theme
+libICE
+ibSM
+libX11
+libXext
+mesa
+recordmydesktop 
+SDL2
+SDL2_image
+v4l-utils
+xine-ui
+#  --- from SBo ---
+amrnb ?
+dvdauthor ?
+dvgrab ?
+faac 
+faad2
+gsm ?
+lame 
+mlt 
+schroedinger 
+SDL2_image ?
+x264 
+x265 ?
+xvidcore
+# --- from alien/ktown 5.15.0 ---
+attica-framework
+extra-cmake-modules
+qt5
+qt5-webkit
+karchive
+kauth
+kbookmarks
+kcodecs
+kcompletion
+kconfig
+kconfigwidgets
+kcoreaddons
+kded
+kdbusaddons
+kdoctools
+kguiaddons
+ki18n
+kiconthemes
+kio
+kitemviews
+kjobwidgets
+knewstuff
+knotification
+knotifyconfig
+kplotting
+kservice
+ktextwidgets
+kwidgetsaddons
+kxmlgui
+solid
+sonnet

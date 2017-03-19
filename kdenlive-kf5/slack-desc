@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.
+# Line up the first '|' above the ':' following the base package name, and
+# the '|' on the right side marks the last column you can put a character in.
+# You must make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':' except on otherwise blank lines.
+
+            |-----handy-ruler------------------------------------------------------|
+kdenlive-kf5: kdenlive (KDE Non Linear Video Editor)
+kdenlive-kf5:
+kdenlive-kf5: Using the MLT video  framework. It is  currently  under  development
+kdenlive-kf5: Kdenlive  provides dual  video  monitors, a multi-track timeline and
+kdenlive-kf5: clip list. Other features include customizable layout support, basic
+kdenlive-kf5: effects and transition, direct  import from online resources such as
+kdenlive-kf5: Freesound, Archive.org, and Open Clip Art. Integrated DVD authoring.
+kdenlive-kf5:
+kdenlive-kf5: This build is for the current KDE Frameworks (KF5)
+kdenlive-kf5: version of kdenlive-git (17.XX.X)
+kdenlive-kf5:
