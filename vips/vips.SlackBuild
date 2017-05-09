@@ -2,7 +2,7 @@
 #
 # Slackware Package Build Script for vips 
 # Build script by <DIO> igor29768 @ gmail.com
-# Version 151028
+# Version 170501
 #
 # http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS
 #
@@ -28,7 +28,7 @@
 set -e 
 
 PRGNAM="vips"
-VERSION=${VERSION:-8.1.0}
+VERSION=${VERSION:-8.4.5}
 #VERSION=`date +%g%m%d`
 BUILD=${BUILD:-1}
 TAG=${TAG:-dio}

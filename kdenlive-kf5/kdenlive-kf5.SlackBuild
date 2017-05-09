@@ -61,7 +61,7 @@
 PRGNAM=kdenlive-kf5
 VERSION=`date +%g%m%d`
 #VERSION=${VERSION:-0.9.10}
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 TAG=${TAG:-dio}
 
 if [ -z "$ARCH" ]; then
@@ -135,8 +135,10 @@ cd ..
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
 
-#find $PKG/usr/man -type f -exec gzip -9 {} \;
-#for i in $( find $PKG/usr/man -type l ) ; do ln -s $( readlink $i ).gz $i.gz ; rm $i ; done
+mv $PKG/usr/share/man $PKG/usr/man
+#find $PKG/usr/man/man?/*.? -type f -exec gzip -9 {} \;
+#for i in $( find $PKG/usr/man/man?/*.? -type l ) ; do ln -s $( readlink $i ).gz $i.gz ; rm $i ; done
+gzip -9 $PKG/usr/man/man?/*.?
 
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
 cp -a AUTHORS COPYING README ChangeLog $PKG/usr/doc/$PRGNAM-$VERSION
@@ -147,4 +149,4 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
 cat $CWD/doinst.sh > $PKG/install/doinst.sh
 
 cd $PKG
-/sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-tgz}
+/sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-txz}
