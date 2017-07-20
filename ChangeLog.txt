@@ -1,7 +1,10 @@
 ------------------------
 Last modif.| Program 
 ------------------------
-2017-07-06 | gimp2p9: (The GNU Image Manipulation Program +BABL + GEGL -git-)
+2017-07-20 | glade3: (Glade UI Designer version 3)    
+2017-07-20 | libxavs: (AVS Encoder and Decoder Library)    
+2017-07-20 | libharu: (library for generating PDF files)    
+2017-07-20 | gimp2p9: (The GNU Image Manipulation Program +BABL + GEGL -git-)
 2017-05-08 | ffmpeg: (Software to record, convert and stream audio and video)
 2017-05-01 | vips: (Free Image Processing System)     
 2017-03-19 | kdenlive-kf5: (KDE Non Linear Video Editor)    
@@ -10,7 +13,6 @@ Last modif.| Program
 2017-02-26 | freefilesync: 
 2017-02-19 | xsane: (Graphical frontend to SANE, Scanner Access Now Easy) 
 2016-10-17 | gmic: (Image converter and gimp plugin)    
-2016-07-10 | glade3: (Glade UI Designer version 3)    
 2016-07-10 | hugin: (Panorama photo stitcher)      
 2016-05-08 | photoflow: (Non-Destructive Photo Editor)      
 2015-11-19 | dvisvgm: (converts DVI and EPS files to SVG -Scalable Vector
@@ -23,5 +25,4 @@ Last modif.| Program
 2015-10-31 | luminance-hdr: HDR (HDR imaging application)     
 2015-10-31 | resynthesizer: (Gimp plug-in for texture synthesis)    
 2015-10-31 | ufraw: (Unindentified Flying RAW)      
-2015-10-30 | libharu: (library for generating PDF files)    
 2015-10-27 | s2plot: (3D plotting library)      
