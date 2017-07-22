@@ -1,6 +1,9 @@
 ------------------------
 Last modif.| Program 
 ------------------------
+2017-07-22 | photoflow: (Non-Destructive Photo Editor)      
+2017-07-22 | vips: (Free Image Processing System)     
+2017-07-22 | gimp-focusblur: (Create blur with luminosity and depth)   
 2017-07-22 | dvisvgm: (converts DVI and EPS files to SVG -Scalable Vector
 2017-07-22 | libfpx: (FlashPIX Image Library)      
 2017-07-20 | glade3: (Glade UI Designer version 3)    
@@ -8,7 +11,6 @@ Last modif.| Program
 2017-07-20 | libharu: (library for generating PDF files)    
 2017-07-20 | gimp2p9: (The GNU Image Manipulation Program +BABL + GEGL -git-)
 2017-05-08 | ffmpeg: (Software to record, convert and stream audio and video)
-2017-05-01 | vips: (Free Image Processing System)     
 2017-03-19 | kdenlive-kf5: (KDE Non Linear Video Editor)    
 2017-03-18 | openshot2: version 2 (open-source video editor)    
 2017-02-26 | photivo: (photo processor)       
@@ -16,9 +18,7 @@ Last modif.| Program
 2017-02-19 | xsane: (Graphical frontend to SANE, Scanner Access Now Easy) 
 2016-10-17 | gmic: (Image converter and gimp plugin)    
 2016-07-10 | hugin: (Panorama photo stitcher)      
-2016-05-08 | photoflow: (Non-Destructive Photo Editor)      
 2015-11-18 | cln: (class library for numbers)     
-2015-11-18 | gimp-focusblur: (Create blur with luminosity and depth)   
 2015-11-18 | asymptote: (The Vector Graphics Language)     
 2015-11-18 | gthumb: (An image viewer)      
 2015-11-17 | enblend-enfuse: (Image Blending and Enfusing tools)    
