@@ -1,6 +1,7 @@
 ------------------------
 Last modif.| Program 
 ------------------------
+2017-07-22 | libfpx: (FlashPIX Image Library)      
 2017-07-20 | glade3: (Glade UI Designer version 3)    
 2017-07-20 | libxavs: (AVS Encoder and Decoder Library)    
 2017-07-20 | libharu: (library for generating PDF files)    
