@@ -3,7 +3,7 @@
 # Slackware build script for G'MIC, inculding the Gimp plugin
 #      A Full-Featured Open-Source Framework for Image Processing 
 #               complete G'Mic source
-# Copyright 2015-2016 <DIO> igor29768 @ gmail.com
+# Copyright 2015-2017 <DIO> igor29768 @ gmail.com
 # Copyright 2011-2015 Corrado Franco (http://conraid.net)
 # All rights reserved.
 #
@@ -24,7 +24,7 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-# Version of this SlackBuild: 160710 
+# Version of this SlackBuild: 170730 
 #
 # Exit on most errors or unset variables
 set -eu
@@ -33,12 +33,12 @@ set -eu
 CWD=$(pwd)
 
 PRGNAM=${PRGNAM:-gmic}
-VERSION=${VERSION:-1.7.7}
+VERSION=${VERSION:-2.0.2}
 #VERSION=`date +%g%m%d`
 #VERSION=${VERSION:-$(echo ${PRGNAM}_*.tar.?z* | rev | cut -f3- -d. | cut -f1 -d_ | rev)}
 #PKGNAME=$(echo $PRGNAM | tr A-Z a-z)
 #PKGVERSION=$(echo $VERSION | tr - _)
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 TAG=${TAG:-dio}
 TMP=${TMP:-/tmp/SBo}
 PKG=$TMP/package-$PRGNAM
@@ -98,11 +98,17 @@ SRCARCHIVE=${SRCDIR}.tar.gz
 test -r ${CWD}/${SRCARCHIVE} || ${DL_PROG} ${DL_OPTS} ${DL_URL}/${SRCARCHIVE} || exit 1
 #done
 
+
 cd $TMP
 rm -rf $PRGNAM-$VERSION
+rm -rf $PRGNAM
 
 tar xvf $CWD/${PRGNAM}_${VERSION}.tar.gz
-cd $PRGNAM-$VERSION
+mv "$PRGNAM-$VERSION" "$PRGNAM"
+#ln -s $PRGNAM-$VERSION $PRGNAM
+#cd $PRGNAM-$VERSION
+cd $PRGNAM
+
 
 chown -R root:root .
 find -L . \
@@ -113,24 +119,36 @@ find -L . \
 
 # Fix man path
 sed -e 's#/share/man/#/man/#g' -i src/Makefile
+# Point on QT5 qmake
+sed -e 's#qmake#qmake-qt5#g' -i src/Makefile
 
 # Build and install:
 
 make -C src LIB=lib$LIBDIRSUFFIX OPT_CFLAGS="$SLKCFLAGS" all
+ln -sf ../gmic-qt ./
+# make -C src LIB=lib$LIBDIRSUFFIX OPT_CFLAGS="$SLKCFLAGS" cli
 make -C src install LIB=lib$LIBDIRSUFFIX DESTDIR="$PKG" USR="/usr"
 
 # Check if gimp-2.9 is installed to /opt/gimp-2.9
 # to place gmic_gimp to /opt/gimp-2.9/lib/gimp/2.0/plug-ins
 
 if [ -d /opt/gimp-2.9 ]; then
- make -C src clean
+# make -C src clean
+ln -sf ../gmic-qt ./
+# Linking to the gimp-2.9 path
  cp src/Makefile src/Makefile-2.9
  sed -i 's#gimptool#/opt/gimp-2.9/bin/gimptool#g' src/Makefile-2.9
  sed -i 's#/usr #/opt/gimp-2.9 #g' src/Makefile-2.9
+ export "PKG_CONFIG_PATH=/opt/gimp-2.9/lib64/pkgconfig:$PKG_CONFIG_PATH"
+# ln -sf /opt/gimp-2.9/lib64/pkgconfig/gimp-2.0.pc gmic-qt/
+# cp gmic-qt/Makefile gmic-qt/Makefile.orig
+# sed -i 's#gimptool#/opt/gimp-2.9/bin/gimptool#g' gmic-qt/Makefile
+# sed -i 's#/usr #/opt/gimp-2.9 #g' gmic-qt/Makefile
  GIMPFLAGS="${SLKCFLAGS} -Wl,-rpath -Wl,/opt/gimp-2.9/lib64"
+# make -C src -f Makefile-2.9 LIB=lib$LIBDIRSUFFIX OPT_CFLAGS="$GIMPFLAGS" gmic_gimp_gtk
  make -C src -f Makefile-2.9 LIB=lib$LIBDIRSUFFIX OPT_CFLAGS="$GIMPFLAGS" gimp
  mkdir -p ${PKG}/opt/gimp-2.9/lib$LIBDIRSUFFIX/gimp/2.0/plug-ins
- cp src/gmic_gimp ${PKG}/opt/gimp-2.9/lib$LIBDIRSUFFIX/gimp/2.0/plug-ins/
+ cp gmic-qt/gmic_gimp_qt ${PKG}/opt/gimp-2.9/lib$LIBDIRSUFFIX/gimp/2.0/plug-ins/
 else
  echo "gimp-2.9 is not installed"
 fi
@@ -138,7 +156,7 @@ fi
 # Add a documentation directory:
 mkdir -p ${DOCS}
 cp -a COPYING README $DOCS
-cat zart/README > $DOCS/zart.txt
+#cat zart/README > $DOCS/zart.txt
 
 # Add a slackbuild script:
 install -Dm644 $CWD/$PRGNAM.SlackBuild $DOCS/$PRGNAM.SlackBuild

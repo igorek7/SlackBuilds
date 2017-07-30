@@ -1,6 +1,9 @@
 ------------------------
 Last modif.| Program 
 ------------------------
+2017-07-30 | s2plot: (3D plotting library)      
+2017-07-30 | gmic: (Image converter and gimp plugin)    
+2017-07-23 | hugin: (Panorama photo stitcher)      
 2017-07-22 | photoflow: (Non-Destructive Photo Editor)      
 2017-07-22 | vips: (Free Image Processing System)     
 2017-07-22 | gimp-focusblur: (Create blur with luminosity and depth)   
@@ -16,8 +19,6 @@ Last modif.| Program
 2017-02-26 | photivo: (photo processor)       
 2017-02-26 | freefilesync: 
 2017-02-19 | xsane: (Graphical frontend to SANE, Scanner Access Now Easy) 
-2016-10-17 | gmic: (Image converter and gimp plugin)    
-2016-07-10 | hugin: (Panorama photo stitcher)      
 2015-11-18 | cln: (class library for numbers)     
 2015-11-18 | asymptote: (The Vector Graphics Language)     
 2015-11-18 | gthumb: (An image viewer)      
@@ -26,4 +27,3 @@ Last modif.| Program
 2015-10-31 | luminance-hdr: HDR (HDR imaging application)     
 2015-10-31 | resynthesizer: (Gimp plug-in for texture synthesis)    
 2015-10-31 | ufraw: (Unindentified Flying RAW)      
-2015-10-27 | s2plot: (3D plotting library)      
