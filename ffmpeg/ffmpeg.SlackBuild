@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Slackware build script for ffmpeg
-# SlackBuild Version: 170508 Upgraded to Version 3.2
+# SlackBuild Version: 171014 Upgraded to Version 3.2 (git)
 # Copyright 2017 Igor <DIO> ( igor29768 AT gmail.com )
 # Copyright 2010-2015 Heinz Wiesinger, Amsterdam, The Netherlands
 # Copyright 2008-2015 Phantom X, Goiania, Brazil.
@@ -124,8 +124,7 @@ fdk=""          ; [ "${FDK_AAC:-yes}" != "no" ]  && \
 ssl=""          ; [ "${OPENSSL:-no}" != "no" ]  && \
   { ssl="--enable-openssl" ; non_free="--enable-nonfree" ; }
 openjpeg=""     ; [ "${JP2:-yes}" != "no" ]      && \
-  { openjpeg="--enable-libopenjpeg" ; \
-    SLKCFLAGS="$SLKCFLAGS -I/usr/include/openjpeg-1.5" ; }
+  { openjpeg="--enable-libopenjpeg" ; }
 decklink=""   ; [ "${DECKLINK:-no}" != "no" ]   && \
   { decklink="--enable-decklink" ; \
     SLKCFLAGS="$SLKCFLAGS -I/usr/include/decklink" ; }

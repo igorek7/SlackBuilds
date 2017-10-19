@@ -2,7 +2,7 @@
 #
 # Slackware Package Build Script for vips 
 # Build script by <DIO> igor29768 @ gmail.com
-# Version 170722
+# Version 171017
 #
 # http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS
 #
@@ -28,7 +28,7 @@
 set -e 
 
 PRGNAM="vips"
-VERSION=${VERSION:-8.4.5}
+VERSION=${VERSION:-8.5.9}
 #VERSION=`date +%g%m%d`
 BUILD=${BUILD:-1}
 TAG=${TAG:-dio}
@@ -68,8 +68,11 @@ SRCARCHIVE=${SRCDIR}.tar.gz
 DL_PROG=${DL_PROG:-wget}
 DL_TO=${DL_TO:-5}
 DL_OPTS=${DL_OPTS:-"--timeout=${DL_TO}"}
-MIRROR_SF=${MIRROR_SF:-http://www.vips.ecs.soton.ac.uk/supported/current}
-DL_URL="${MIRROR_SF}/${SRCARCHIVE}"
+#MIRROR_SF=${MIRROR_SF:-http://www.vips.ecs.soton.ac.uk/supported/current}
+MIRROR_SF=${MIRROR_SF:-https://github.com/jcupitt/libvips/releases/download}
+
+#DL_URL="${MIRROR_SF}/${SRCARCHIVE}"
+DL_URL="${MIRROR_SF}/v${VERSION}/${SRCARCHIVE}"
 
 # http://www.vips.ecs.soton.ac.uk/supported/current/vips-8.1.0.tar.gz
 
