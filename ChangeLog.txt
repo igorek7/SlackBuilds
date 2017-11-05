@@ -1,6 +1,7 @@
 ------------------------
 Last modif.| Program 
 ------------------------
+2017-11-05 | xournal: (note taking application)      
 2017-10-19 | gmic: (Image converter and gimp plugin)    
 2017-10-19 | gimp-focusblur: (Create blur with luminosity and depth)   
 2017-10-19 | glade3: (Glade UI Designer version 3)    
