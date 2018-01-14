@@ -1,10 +1,10 @@
 #!/bin/sh
 
 # Slackware build script for the Development Version of the GIMP+BABL+GEGL
-# SlackBuild Version: 160710
+# SlackBuild Version: 180114
 # 
 # Copyright 2008, 2009, 2010, 2011  Patrick J. Volkerding, Sebeka, MN, USA
-# Copyright 2015  <DIO> igor29768 AT gmail.com
+# Copyright 2015-2018 <DIO> igor29768 AT gmail.com
 # All rights reserved.
 #
 # Redistribution and use of this script, with or without modification, is
@@ -32,7 +32,8 @@
 # http://ninedegreesbelow.com/photography/build-gimp-in-prefix-for-artists.html
 # http://crunchbang.org/forums/viewtopic.php?id=25716
 # http://www.gimp.org/source/howtos/gimp-git-build.html
-# 160710 Added libmypaint-gegl from git since gimp now requires ver.1.3
+# 160710 Added libmypaint-gegl from git - mypaint-brushes requires it
+# 180114 Added mypaint-brushes from git since gimp now requires it 
 
 PKGNAM="gimp2p9"
 SRCNAM="gimp"
@@ -83,7 +84,7 @@ export PATH=${PREFIX}/bin:$PATH
 export LD_LIBRARY_PATH=${PREFIX}/lib${LIBDIRSUFFIX}:$LD_LIBRARY_PATH
 export XDG_DATA_DIRS=$PREFIX/share:$XDG_DATA_DIRS
 export ACLOCAL_FLAGS="-I $PREFIX/share/aclocal"
-export PKG_CONFIG_PATH=${PREFIX}/lib${LIBDIRSUFFIX}/pkgconfig:$PKG_CONFIG_PATH
+export PKG_CONFIG_PATH=${PREFIX}/lib${LIBDIRSUFFIX}/pkgconfig:/usr/local/share/pkgconfig:$PKG_CONFIG_PATH
 export GIO_EXTRA_MODULES=/usr/lib${LIBDIRSUFFIX}/gio/modules
 
 rm -rf $PKG
@@ -172,6 +173,7 @@ cd ..
 
 # 160710 Added libmypaint from git
 # 170706 Attempt to fix the branch to 1.3 for now
+# 180114
 # Getting the Development versions of libmypaint
 #if [ ! -e libmypaint ]; then
 #  git clone https://github.com/mypaint/libmypaint.git libmypaint
@@ -182,6 +184,7 @@ cd ..
 #  git pull --rebase
 #fi     
 
+# 180114 v1.3 for now
 wget https://github.com/mypaint/libmypaint/archive/v1.3.0.tar.gz
 mv v1.3.0.tar.gz libmypaint-1.3.0.tar.gz
 tar xfvz libmypaint-1.3.0.tar.gz
@@ -189,7 +192,7 @@ cd libmypaint-1.3.0
 
 CFLAGS="$SLKCFLAGS" \
 LDFLAGS="-Wl,${PREFIX}/lib${LIBDIRSUFFIX}" \
-./autogen.sh 
+./autogen.sh --prefix=${PREFIX} \
 
 # Added 170220
 libtool --finish /opt/gimp-2.9/lib64/
@@ -205,7 +208,41 @@ make install
 make install DESTDIR=$PKG || exit 1
 cd ..
 
+# 180114
+# Added versions 1.3 of mypaint-brushes
+#if [ ! -e mypaint-brushes ]; then
+#  git clone https://github.com/Jehan/mypaint-brushes.git mypaint-brushes
+#  cd mypaint-brushes
+#  git checkout --track -b v1.3.x origin/v1.3.x 
+#else   
+#  cd mypaint-brushes
+#  make clean
+#  git pull --rebase
+#fi     
 
+# 180114 v1.3 for now
+wget https://github.com/Jehan/mypaint-brushes/archive/v1.3.0.tar.gz
+mv v1.3.0.tar.gz mypaint-brushes-1.3.0.tar.gz
+tar xfvz mypaint-brushes-1.3.0.tar.gz
+cd mypaint-brushes-1.3.0
+
+CFLAGS="$SLKCFLAGS" \
+LDFLAGS="-Wl,${PREFIX}/lib${LIBDIRSUFFIX}" \
+./autogen.sh --prefix=${PREFIX} \
+
+libtool --finish /opt/gimp-2.9/lib64/
+
+CFLAGS="$SLKCFLAGS" \
+./configure \
+  --libdir=${PREFIX}/lib${LIBDIRSUFFIX} \
+  --disable-docs \
+  --build=$ARCH-slackware-linux
+make -j${NUMJOBS}
+make install
+make install DESTDIR=$PKG || exit 1
+cd ..
+
+# Building Gimp itself
 #if [ ! -e $PRGNAM ]; then
 # git clone git://git.gnome.org/gimp ${PRGNAM}
 # cd $PRGNAM

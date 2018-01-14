@@ -1,22 +1,22 @@
 ------------------------
 Last modif.| Program 
 ------------------------
+2018-01-14 | gimp2p9: (The GNU Image Manipulation Program +BABL + GEGL -git-)
+2017-12-12 | ffmpeg: (Software to record, convert and stream audio and video)
 2017-11-05 | xournal: (note taking application)      
 2017-10-19 | gmic: (Image converter and gimp plugin)    
 2017-10-19 | gimp-focusblur: (Create blur with luminosity and depth)   
 2017-10-19 | glade3: (Glade UI Designer version 3)    
+2017-10-19 | libharu: (library for generating PDF files)    
 2017-10-19 | vips: (Free Image Processing System)     
 2017-10-19 | xsane: (Graphical frontend to SANE, Scanner Access Now Easy) 
-2017-10-19 | libharu: (library for generating PDF files)    
 2017-10-16 | kdenlive-kf5: (KDE Non Linear Video Editor)    
-2017-10-14 | ffmpeg: (Software to record, convert and stream audio and video)
 2017-07-30 | s2plot: (3D plotting library)      
 2017-07-23 | hugin: (Panorama photo stitcher)      
 2017-07-22 | photoflow: (Non-Destructive Photo Editor)      
 2017-07-22 | dvisvgm: (converts DVI and EPS files to SVG -Scalable Vector
-2017-07-22 | libfpx: (FlashPIX Image Library)      
-2017-07-20 | libxavs: (AVS Encoder and Decoder Library)    
-2017-07-20 | gimp2p9: (The GNU Image Manipulation Program +BABL + GEGL -git-)
+2017-07-22 | libfpx: 
+2017-07-20 | libxavs: 
 2017-03-18 | openshot2: version 2 (open-source video editor)    
 2017-02-26 | photivo: (photo processor)       
 2017-02-26 | freefilesync: 
