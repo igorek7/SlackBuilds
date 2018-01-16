@@ -2,7 +2,7 @@
 
 # Slackware build script for gthumb
 
-# Copyright 2015  <DIO> igor29768 AT gmail.com
+# Copyright 2015-2018  <DIO> igor29768 AT gmail.com
 # based on BuildScript by crocket (crockabiscuit@gmail.com)
 # All rights reserved.
 #
@@ -23,8 +23,8 @@
 #  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-# Script Version 151031
-#
+# Script Version 180116
+# Added libtotem-plparser.la if totem is installed
 PRGNAM=gthumb
 VERSION=`date +%g%m%d`
 #VERSION=${VERSION:-3.4.1}
@@ -96,9 +96,18 @@ LDFLAGS="-Wl,-rpath -Wl,${PREFIX}/lib${LIBDIRSUFFIX}" \
   --localstatedir=/var \
   --mandir=${PREFIX}/man \
   --infodir=${PREFIX}/info \
-  --enable-static=no \
+  --disable-static \
   --docdir=${PREFIX}/doc/$PRGNAM-$VERSION \
   --build=$ARCH-slackware-linux
+
+# 180116 Modified libtool
+sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+# Temporary workaround solution until gthumb switches to meson(?)!!! 
+# If totem-plparser is installed, 
+# copy missing libtotem-plparser.la to /usr/lib64
+if [ -e /usr/lib64/libtotem-plparser.so ] && [ -e /usr/lib64/libtotem-plparser.la ]; then
+ cat $CWD/libtotem-plparser.la > /usr/lib64/libtotem-plparser.la
+fi
 
 make
 make install DESTDIR=$PKG

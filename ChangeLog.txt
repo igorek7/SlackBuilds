@@ -1,6 +1,7 @@
 ------------------------
 Last modif.| Program 
 ------------------------
+2018-01-16 | gthumb: (An image viewer)      
 2018-01-14 | gimp2p9: (The GNU Image Manipulation Program +BABL + GEGL -git-)
 2017-12-12 | ffmpeg: (Software to record, convert and stream audio and video)
 2017-11-05 | xournal: (note taking application)      
@@ -22,7 +23,6 @@ Last modif.| Program
 2017-02-26 | freefilesync: 
 2015-11-18 | cln: (class library for numbers)     
 2015-11-18 | asymptote: (The Vector Graphics Language)     
-2015-11-18 | gthumb: (An image viewer)      
 2015-11-17 | enblend-enfuse: (Image Blending and Enfusing tools)    
 2015-11-03 | seyon: (telecommunications package)       
 2015-10-31 | luminance-hdr: HDR (HDR imaging application)     
