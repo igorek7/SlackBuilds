@@ -1,0 +1,6 @@
+Qucs is an integrated circuit simulator which aims to support all
+kinds of circuit simulation types, e.g. DC, AC, S-parameter,
+harmonic balance analysis, noise analysis, etc.
+Qucs-S = Qucs with SPICE
+It merges the power of SPICE and the simplicity of the Qucs GUI.
+Homepage: https://ra3xdh.github.io/
