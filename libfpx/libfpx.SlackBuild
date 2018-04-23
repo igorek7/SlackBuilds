@@ -1,9 +1,9 @@
 #!/bin/sh
 
 # libfpx (library of Kodak FlashPix image file format) Slackware Build script
-# SlackBuild Version: 170722
+# SlackBuild Version: 180117
 
-# Copyright 2015-2017 Igor <DIO> ( igor29768 AT gmail.com )
+# Copyright 2015-2018 Igor <DIO> ( igor29768 AT gmail.com )
 # Based on script written by Andrea Sciucca (gohanz at infinito.it)
 
 # Official Site: ftp://ftp.imagemagick.org/pub/ImageMagick/delegates
@@ -32,7 +32,7 @@ set -e
 # Basic information.
 
 PRGNAM=libfpx
-VERSION=${VERSION:-1.3.1.9}
+VERSION=${VERSION:-1.3.1.10}
 BUILD=${BUILD:-1}
 TAG=${TAG:-dio}
 

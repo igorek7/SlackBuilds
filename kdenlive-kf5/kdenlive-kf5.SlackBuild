@@ -26,6 +26,8 @@
 
 # CHANGELOG
 # ---------
+# 180407 
+# Fix a bug related to compiling from pre-existing source directory
 # 170319 
 # Revision by Igor to use with the latest kdenlive based on KDE Framweorks KF5 
 # ---------
@@ -103,7 +105,9 @@ if [ ! -e $PRGNAM ]; then
  cd $PRGNAM
 else   
  cd $PRGNAM
- make -C build clean
+ if [ -f build/Makefile ]; then
+  make -C build clean
+ fi
  git pull --rebase
 fi
 

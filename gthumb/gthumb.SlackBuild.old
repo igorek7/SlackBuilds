@@ -23,10 +23,11 @@
 #  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-# Script Version 180423
-# Modified for using meson & ninja
+# Script Version 180116
+# Added libtotem-plparser.la if totem is installed
 PRGNAM=gthumb
 VERSION=`date +%g%m%d`
+#VERSION=${VERSION:-3.4.1}
 BUILD=${BUILD:-1}
 TAG=${TAG:-dio}
 
@@ -88,28 +89,37 @@ CFLAGS="${SLKCFLAGS}" \
 CXXFLAGS="${SLKCFLAGS}" \
 PKG_CONFIG_PATH="${PREFIX}/lib${LIBDIRSUFFIX}/pkgconfig" \
 LDFLAGS="-Wl,-rpath -Wl,${PREFIX}/lib${LIBDIRSUFFIX}" \
-meson build \
-    --prefix ${PREFIX} \
-    --libdir ${PREFIX}/lib${LIBDIRSUFFIX} \
-    --sysconfdir /etc \
-    --mandir ${PREFIX}/man \
-    --buildtype release \
-    --strip \
-    || exit 1
+./autogen.sh \
+  --prefix=${PREFIX} \
+  --libdir=${PREFIX}/lib${LIBDIRSUFFIX} \
+  --sysconfdir=/etc \
+  --localstatedir=/var \
+  --mandir=${PREFIX}/man \
+  --infodir=${PREFIX}/info \
+  --disable-static \
+  --docdir=${PREFIX}/doc/$PRGNAM-$VERSION \
+  --build=$ARCH-slackware-linux
 
-cd build
-ninja
-DESTDIR=$PKG ninja install
-cd ..
+# 180116 Modified libtool
+sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+# Temporary workaround solution until gthumb switches to meson(?)!!! 
+# If totem-plparser is installed, 
+# copy missing libtotem-plparser.la to /usr/lib64
+if [ -e /usr/lib64/libtotem-plparser.so ] && [ -e /usr/lib64/libtotem-plparser.la ]; then
+ cat $CWD/libtotem-plparser.la > /usr/lib64/libtotem-plparser.la
+fi
+
+make
+make install DESTDIR=$PKG
 
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
 
-#find $PKG${PREFIX}/man -type f -exec gzip -9 {} \;
-#for i in $( find $PKG${PREFIX}/man -type l ) ; do ln -s $( readlink $i ).gz $i.gz ; rm $i ; done
+find $PKG${PREFIX}/man -type f -exec gzip -9 {} \;
+for i in $( find $PKG${PREFIX}/man -type l ) ; do ln -s $( readlink $i ).gz $i.gz ; rm $i ; done
 
 mkdir -p $PKG${PREFIX}/doc/$PRGNAM-$VERSION
-cp -a AUTHORS COPYING MAINTAINERS NEWS README $PKG${PREFIX}/doc/$PRGNAM-$VERSION
+cp -a AUTHORS COPYING INSTALL MAINTAINERS NEWS README $PKG${PREFIX}/doc/$PRGNAM-$VERSION
 cat $CWD/$PRGNAM.SlackBuild > $PKG${PREFIX}/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
 
 mkdir -p $PKG/install
