@@ -1,0 +1,148 @@
+#!/bin/sh
+#
+# Slackware build script for G'MIC, inculding the Gimp plugin
+#      A Full-Featured Open-Source Framework for Image Processing 
+#               complete G'Mic source
+# Copyright 2015-2017 <DIO> igor29768 @ gmail.com
+# Copyright 2011-2015 Corrado Franco (http://conraid.net)
+# All rights reserved.
+#
+# Redistribution and use of this script, with or without modification, is
+# permitted provided that the following conditions are met:
+#
+# 1. Redistributions of this script must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#
+# THIS SOFTWARE IS PROVIDED BY THE AUTHOR ''AS IS'' AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+# EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+# OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+# ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+# Version of this SlackBuild: 181201 - Now solely for one version of Gimp
+#
+# Exit on most errors or unset variables
+set -eu
+
+# Set variables:
+CWD=$(pwd)
+
+PRGNAM=${PRGNAM:-gmic}
+VERSION=${VERSION:-2.4.1}
+#VERSION=`date +%g%m%d`
+#VERSION=${VERSION:-$(echo ${PRGNAM}_*.tar.?z* | rev | cut -f3- -d. | cut -f1 -d_ | rev)}
+#PKGNAME=$(echo $PRGNAM | tr A-Z a-z)
+#PKGVERSION=$(echo $VERSION | tr - _)
+BUILD=${BUILD:-1}
+TAG=${TAG:-dio}
+TMP=${TMP:-/tmp/SBo}
+PKG=$TMP/package-$PRGNAM
+DOCS="$PKG/usr/doc/$PRGNAM-$VERSION"
+OUTPUT=${OUTPUT:-/tmp}
+
+ARCH=${ARCH:=""} # Set ARCH or leave blank to determine it automatically/
+# Automatically determine the architecture we're building on:
+if [ -z "$ARCH" ]; then
+    case "$( uname -m )" in
+	i?86) ARCH=i686 ;;
+	arm*) ARCH=arm ;;
+        # Unless $ARCH is already set, use uname -m for all other archs:
+        *) ARCH=$( uname -m ) ;;
+    esac
+fi
+
+# Set compiling FLAGS
+if [ "$ARCH" = "i486" ]; then
+  SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "i686" ]; then
+  SLKCFLAGS="-O2 -march=i686 -mtune=i686"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "x86_64" ]; then
+  SLKCFLAGS="-O2 -fPIC"
+  LIBDIRSUFFIX="64"
+else
+  SLKCFLAGS="-O2"
+  LIBDIRSUFFIX=""
+fi
+
+# Extract source and prepare:
+rm -rf $PKG
+mkdir -p $TMP $PKG
+
+#if [ ! -e $PRGNAM ]; then
+# git clone https://github.com/dtschump/gmic.git $PRGNAM
+# cd $PRGNAM
+#else   
+# cd $PRGNAM
+# git pull
+#fi 
+# http://gmic.eu/files/source/gmic_1.6.7.tar.gz
+
+DL_PROG=${DL_PROG:-wget}
+DL_TO=${DL_TO:-5}
+DL_OPTS=${DL_OPTS:-"--timeout=${DL_TO}"}
+DL_URL=${DL_URL:-http://gmic.eu/files/source/}
+
+SRCDIR=${PRGNAM}_${VERSION}
+SRCARCHIVE=${SRCDIR}.tar.gz
+#SSRCARCHIVE=${SRCARCHIVE}.md5
+
+# if source is not present, download in source rootdir if possible
+#for file in ${SRCARCHIVE} ${SSRCARCHIVE} ;do
+test -r ${CWD}/${SRCARCHIVE} || ${DL_PROG} ${DL_OPTS} ${DL_URL}/${SRCARCHIVE} || exit 1
+#done
+
+
+cd $TMP
+rm -rf $PRGNAM-$VERSION
+rm -rf $PRGNAM
+
+tar xvf $CWD/${PRGNAM}_${VERSION}.tar.gz
+mv "$PRGNAM-$VERSION" "$PRGNAM"
+#ln -s $PRGNAM-$VERSION $PRGNAM
+#cd $PRGNAM-$VERSION
+cd $PRGNAM
+
+
+chown -R root:root .
+find -L . \
+ \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
+  -o -perm 511 \) -exec chmod 755 {} \; -o \
+ \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
+  -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
+
+# Fix man path
+sed -e 's#/share/man/#/man/#g' -i src/Makefile
+# Point on QT5 qmake
+sed -e 's#qmake#qmake-qt5#g' -i src/Makefile
+
+# Build and install:
+
+make -C src LIB=lib$LIBDIRSUFFIX OPT_CFLAGS="$SLKCFLAGS" all
+if [ -d ../gmic-qt ]; then ln -sf ../gmic-qt ./ ; fi
+# make -C src LIB=lib$LIBDIRSUFFIX OPT_CFLAGS="$SLKCFLAGS" cli
+make -C src install LIB=lib$LIBDIRSUFFIX DESTDIR="$PKG" USR="/usr"
+
+# Add a documentation directory:
+mkdir -p ${DOCS}
+cp -a COPYING README $DOCS
+#cat zart/README > $DOCS/zart.txt
+
+# Add a slackbuild script:
+install -Dm644 $CWD/$PRGNAM.SlackBuild $DOCS/$PRGNAM.SlackBuild
+
+# Add slack-desc
+install -Dm644 $CWD/slack-desc $PKG/install/slack-desc
+
+# Remove empty dir
+rmdir $PKG/usr/share || true
+
+# Create package:
+cd $PKG
+/sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-${BUILD}${TAG}.txz

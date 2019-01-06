@@ -25,15 +25,14 @@ Version 2.0 is a complete rewrite and is multithreaded.  Otherwise,
 functionally the same except when compiled threaded it is
 nondeterministic.
 
-The built package will contain the plugin for both, the gimp-2.8 
-and gimp-2.9 (if 2.9 is installed). 
+The built package will contain the plugin the gimp-2.10 
 
 Warning! Some of the resynthesizer utils, 'plugin-heal-transparency.py'
-and 'plugin-heal-selection.py' call for the deprecated in gimp-2.9
+and 'plugin-heal-selection.py' call for the deprecated in gimp-2.10
 procedures: 
 * 'gimp-selection-layer-alpha' instead of 'gimp-image-select-item'
 * 'gimp-selection-combine' instead of 'gimp-image-select-item'
 * 'gimp-selection-load' instead of 'gimp-image-select-item' 
 Nonetheless, despite of the warning messages, the procedures appear  to
-be working in the current development version of gimp-2.9.  I'll try to
+be working in the current development version of gimp-2.10.  I'll try to
 correct the python code for the gimp-2.9 in the future.

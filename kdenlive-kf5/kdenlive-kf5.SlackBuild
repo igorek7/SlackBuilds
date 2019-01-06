@@ -2,7 +2,7 @@
 
 # Slackware build script for kdenlive based on kf5
 
-# Copyright 2017 Igor 29768, <igor29768 (at) gmail com>
+# Copyright 2017-2019 Igor 29768, <igor29768 (at) gmail com>
 # Copyright 2014 Tak Ooishi, Alberta, Canada <rootisfun (at) gadgetinventor com>
 # Original SBo script by stormtracknole <stormtracknole (at) gmail com> 8/5/2009
 # All rights reserved.
@@ -26,7 +26,7 @@
 
 # CHANGELOG
 # ---------
-# 180407 
+# 190106 
 # Fix a bug related to compiling from pre-existing source directory
 # 170319 
 # Revision by Igor to use with the latest kdenlive based on KDE Framweorks KF5 
@@ -145,7 +145,7 @@ mv $PKG/usr/share/man $PKG/usr/man
 gzip -9 $PKG/usr/man/man?/*.?
 
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
-cp -a AUTHORS COPYING README ChangeLog $PKG/usr/doc/$PRGNAM-$VERSION
+cp -a ChangeLog $PKG/usr/doc/$PRGNAM-$VERSION
 cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
 
 mkdir -p $PKG/install

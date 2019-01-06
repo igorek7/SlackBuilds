@@ -3,7 +3,7 @@
 # Slackware build script for G'MIC, inculding the Gimp plugin
 #      A Full-Featured Open-Source Framework for Image Processing 
 #               complete G'Mic source
-# Copyright 2015-2017 <DIO> igor29768 @ gmail.com
+# Copyright 2015-2019 <DIO> igor29768 @ gmail.com
 # Copyright 2011-2015 Corrado Franco (http://conraid.net)
 # All rights reserved.
 #
@@ -24,7 +24,8 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-# Version of this SlackBuild: 180118 
+# Version of this SlackBuild: 181201 - Now solely for one version of Gimp
+# 190106 - Updated for ver 2.4.3
 #
 # Exit on most errors or unset variables
 set -eu
@@ -33,12 +34,12 @@ set -eu
 CWD=$(pwd)
 
 PRGNAM=${PRGNAM:-gmic}
-VERSION=${VERSION:-2.1.8}
+VERSION=${VERSION:-2.4.3}
 #VERSION=`date +%g%m%d`
 #VERSION=${VERSION:-$(echo ${PRGNAM}_*.tar.?z* | rev | cut -f3- -d. | cut -f1 -d_ | rev)}
 #PKGNAME=$(echo $PRGNAM | tr A-Z a-z)
 #PKGVERSION=$(echo $VERSION | tr - _)
-BUILD=${BUILD:-3}
+BUILD=${BUILD:-2}
 TAG=${TAG:-dio}
 TMP=${TMP:-/tmp/SBo}
 PKG=$TMP/package-$PRGNAM
@@ -64,10 +65,10 @@ elif [ "$ARCH" = "i686" ]; then
   SLKCFLAGS="-O2 -march=i686 -mtune=i686"
   LIBDIRSUFFIX=""
 elif [ "$ARCH" = "x86_64" ]; then
-  SLKCFLAGS="-O2 -fPIC"
+  SLKCFLAGS="-O2 -fPIC -fno-fast-math"
   LIBDIRSUFFIX="64"
 else
-  SLKCFLAGS="-O2"
+  SLKCFLAGS="-O2 -fno-fast-math"
   LIBDIRSUFFIX=""
 fi
 
@@ -118,42 +119,43 @@ find -L . \
   -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
 
 # Fix man path
-sed -e 's#/share/man/#/man/#g' -i src/Makefile
 # Point on QT5 qmake
-sed -e 's#qmake#qmake-qt5#g' -i src/Makefile
+#sed -e 's#qmake#qmake-qt5#g' -i src/Makefile
+# fix overlinking
+sed -i -e "s|LIB = lib|LIB = lib$LIBDIRSUFFIX|g" \
+       -e "s|/share/man/|/man/|g" \
+       -e "s|/etc/bash_completion.d|/usr/share/bash-completion/completions|g" \
+       -e "s|qmake|qmake-qt5|g" \
+       -e "s/pkg-config opencv --libs ||//" -e "s/-lopencv_highgui/-lopencv_videoio/" \
+       -e "s/pkg-config opencv/pkg-config opencv4/" \
+       src/Makefile
+
+sed -i -e "s|-Ofast|-O2 -fno-fast-math --std=c++11|g" \
+    gmic-qt/gmic_qt.pro
+
+# fix build with openCV 4.0
+  cd src
+  patch -p1 -i ${CWD}/gmic-opencv4.patch
+  cd ../zart
+  patch -p1 -i ${CWD}/zart-opencv4.patch
+  cd ../
 
 # Build and install:
 
-make -C src LIB=lib$LIBDIRSUFFIX OPT_CFLAGS="$SLKCFLAGS" all
-if [ -d ../gmic-qt ]; then ln -sf ../gmic-qt ./ ; fi
+make -C src LIB=lib$LIBDIRSUFFIX OPT_CFLAGS="$SLKCFLAGS" cli lib libc 
+cd gmic-qt
+qmake GMIC_PATH=../src GMIC_DYNAMIC_LINKING=on HOST=none
+make LIB=lib$LIBDIRSUFFIX OPT_CFLAGS="$SLKCFLAGS"
+  qmake GMIC_PATH=../src GMIC_DYNAMIC_LINKING=on HOST=gimp
+make LIB=lib$LIBDIRSUFFIX OPT_CFLAGS="$SLKCFLAGS"
+
+cd ../zart
+qmake GMIC_PATH=../src GMIC_DYNAMIC_LINKING=on QMAKE_CXXFLAGS+=" -DOPENCV2_HEADERS"
+cd ../
+
+# if [ -d ../gmic-qt ]; then ln -sf ../gmic-qt ./ ; fi
 # make -C src LIB=lib$LIBDIRSUFFIX OPT_CFLAGS="$SLKCFLAGS" cli
 make -C src install LIB=lib$LIBDIRSUFFIX DESTDIR="$PKG" USR="/usr"
-
-# Check if gimp-2.9 is installed to /opt/gimp-2.9
-# to place gmic_gimp to /opt/gimp-2.9/lib/gimp/2.0/plug-ins
-
-if [ -d /opt/gimp-2.9 ]; then
- make -C src clean
- if [ -d ../gmic-qt ]; then ln -sf ../gmic-qt ./ ; fi
-# Linking to the gimp-2.9 path
- cp src/Makefile src/Makefile-2.9
- sed -i 's#gimptool#/opt/gimp-2.9/bin/gimptool#g' src/Makefile-2.9
- sed -i 's#/usr #/opt/gimp-2.9 #g' src/Makefile-2.9
- export "PKG_CONFIG_PATH=/opt/gimp-2.9/lib64/pkgconfig:$PKG_CONFIG_PATH"
-# ln -sf /opt/gimp-2.9/lib64/pkgconfig/gimp-2.0.pc gmic-qt/
-# cp gmic-qt/Makefile gmic-qt/Makefile.orig
-# sed -i 's#gimptool#/opt/gimp-2.9/bin/gimptool#g' gmic-qt/Makefile
-# sed -i 's#/usr #/opt/gimp-2.9 #g' gmic-qt/Makefile
- GIMPFLAGS="${SLKCFLAGS} -Wl,-rpath -Wl,/opt/gimp-2.9/lib64"
-# make -C src -f Makefile-2.9 LIB=lib$LIBDIRSUFFIX OPT_CFLAGS="$GIMPFLAGS" gmic_gimp_gtk
-# make -C src -f Makefile-2.9 LIB=lib$LIBDIRSUFFIX OPT_CFLAGS="$GIMPFLAGS" gimp
- make -C src -f Makefile-2.9 LIB=lib$LIBDIRSUFFIX OPT_CFLAGS="$GIMPFLAGS" all
- mkdir -p ${PKG}/opt/gimp-2.9/lib$LIBDIRSUFFIX/gimp/2.0/plug-ins
- cp src/gmic_gimp_gtk ${PKG}/opt/gimp-2.9/lib$LIBDIRSUFFIX/gimp/2.0/plug-ins/
- cp gmic-qt/gmic_gimp_qt ${PKG}/opt/gimp-2.9/lib$LIBDIRSUFFIX/gimp/2.0/plug-ins/
-else
- echo "gimp-2.9 is not installed"
-fi
 
 # Add a documentation directory:
 mkdir -p ${DOCS}

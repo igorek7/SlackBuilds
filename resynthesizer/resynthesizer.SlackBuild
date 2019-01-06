@@ -3,7 +3,8 @@
 # Slackware build script for the resynthesizer GIMP plug-in.
 #
 # Copyright 2009 Pierre Cazenave <pwcazenave {at} gmail [dot] com>
-# Copyright 2015 Igor <DIO> <igor29768 {at} gmail [dot] com>
+# Copyright 2015-2019 Igor <DIO> <igor29768 {at} gmail [dot] com>
+# 190106 Removed creating two plugins for two different version of the Gimp
 # All rights reserved.
 #
 # Redistribution and use of this script, with or without modification, is
@@ -28,7 +29,7 @@
 
 PRGNAM=resynthesizer
 VERSION=`date +%g%m%d`
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 TAG=${TAG:-dio}
 
 # Automatically determine the architecture we're building on:
@@ -104,33 +105,25 @@ CXXFLAGS="$SLKCFLAGS" \
   --build=$ARCH-slackware-linux
 make $NUMJOBS || make || exit 1
 make install DESTDIR=$PKG || exit 1
-#mkdir -p $PKG/usr/lib${LIBDIRSUFFIX}/gimp/2.0/plug-ins $PKG/usr/share/gimp/2.0/scripts
-#install -m 755 resynth $PKG/usr/lib${LIBDIRSUFFIX}/gimp/2.0/plug-ins
-#install -m 644 smart-{enlarge,remove}.scm $PKG/usr/share/gimp/2.0/scripts
 
-# Check if gimp-2.9 is installed to /opt/gimp-2.9
-# to re-compile and install the plugin to /opt/gimp-2.9/lib/gimp/2.0/plug-ins
-# as well
-
-if [ -d /opt/gimp-2.9 ]; then
- make clean
-# cp Makefile Makefile-2.9
-# sed -i 's#gimptool#/opt/gimp-2.9/bin/gimptool#g' Makefile-2.9
-# sed -i 's#/usr #/opt/gimp-2.9 #g' Makefile-2.9
- CFLAGS="$SLKCFLAGS" \
- CXXFLAGS="$SLKCFLAGS" \
- PKG_CONFIG_PATH="/opt/gimp-2.9/lib${LIBDIRSUFFIX}/pkgconfig" \
- LDFLAGS="-Wl,-rpath -Wl,/opt/gimp-2.9/lib${LIBDIRSUFFIX}" \
- ./configure \
-  --prefix=/opt/gimp-2.9 \
-  --sysconfdir=/opt/gimp-2.9/etc \
-  --libdir=/opt/gimp-2.9/lib${LIBDIRSUFFIX} \
-  --build=$ARCH-slackware-linux
-# make -f Makefile-2.9 $NUMJOBS || make -f Makefile-2.9 || exit 1
-# make -f Makefile-2.9 install DESTDIR=$PKG || exit 1
- make $NUMJOBS || make || exit 1
- make install DESTDIR=$PKG || exit 1
-fi
+## Check if gimp-2.9 is installed to /opt/gimp-2.9
+## to re-compile and install the plugin to /opt/gimp-2.9/lib/gimp/2.0/plug-ins
+## as well
+#
+#if [ -d /opt/gimp-2.9 ]; then
+# make clean
+# CFLAGS="$SLKCFLAGS" \
+# CXXFLAGS="$SLKCFLAGS" \
+# PKG_CONFIG_PATH="/opt/gimp-2.9/lib${LIBDIRSUFFIX}/pkgconfig" \
+# LDFLAGS="-Wl,-rpath -Wl,/opt/gimp-2.9/lib${LIBDIRSUFFIX}" \
+# ./configure \
+#  --prefix=/opt/gimp-2.9 \
+#  --sysconfdir=/opt/gimp-2.9/etc \
+#  --libdir=/opt/gimp-2.9/lib${LIBDIRSUFFIX} \
+#  --build=$ARCH-slackware-linux
+# make $NUMJOBS || make || exit 1
+# make install DESTDIR=$PKG || exit 1
+#fi
 
 find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true

@@ -1,0 +1,10 @@
+PRGNAM="vips"
+VERSION="8.7.0"
+HOMEPAGE="http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS"
+DOWNLOAD="https://github.com/jcupitt/libvips/archive/v8.7.0.tar.gz"
+MD5SUM=""
+SHASUM=""
+REQUIRES="cfitsio fftw fontconfig freetype ilmbase imagemagick lcms2 libexif libgsf libjpeg-turbo libpng libtiff libwebp libxml2 openexr orc pango"
+MAINTAINER="<DIO>"
+EMAIL="igor29768@gmail.com"
+

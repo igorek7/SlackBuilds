@@ -1,7 +1,6 @@
 G'MIC (Image converter and the Gimp plugin) 
 
 The built package will contain both the standalone 'gmic'
-program as well as the Gimp plugin, for both, the gimp-2.8 
-and gimp-2.9 (if 2.9 is installed).
+program as well as the Gimp plugin.
 
 http://gmic.eu/

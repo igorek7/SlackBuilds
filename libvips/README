@@ -1,0 +1,10 @@
+VIPS is a free image processing system. It includes a range of filters, 
+arithmetic operations, colour processing, histograms, and geometric 
+transforms. It supports ten pixel formats, from 8-bit unsigned int 
+to 128-bit complex. As well as the usual JPEG, TIFF, PNG and WebP images,
+it also supports scientific formats like FITS, OpenEXR, Matlab, Analyze, 
+PFM, Radiance, OpenSlide and DICOM (via libMagick).
+http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS
+
+My SlackBuild script compiles the libvips library, that is required by the PhotoFlow image editor
+https://github.com/igorek7/SlackBuilds/tree/master/PhotoFlow 

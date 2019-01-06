@@ -23,11 +23,11 @@
 #  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-# SlackBuild Version: 151030 
+# SlackBuild Version: 180818 
 
 PRGNAM=libharu
 VERSION=${VERSION:-2.3.0}
-TARVERSION=RELEASE_$(echo $VERSION | tr . _)
+TARVERSION=RELEASE_`echo ${VERSION} | tr . _`
 BUILD=${BUILD:-1}
 TAG=${TAG:-dio}
 
@@ -58,12 +58,13 @@ else
   LIBDIRSUFFIX=""
 fi
 
+# https://github.com/libharu/libharu/archive/RELEASE_2_3_0.tar.gz
 SRCARCHIVE=${TARVERSION}.tar.gz
 
 DL_PROG=${DL_PROG:-wget}
 DL_TO=${DL_TO:-5}
 DL_OPTS=${DL_OPTS:-"--timeout=${DL_TO}"}
-MIRROR_GNU=${MIRROR_GNU:-https://github.com/}
+MIRROR_GNU=${MIRROR_GNU:-https://github.com}
 DL_URL="${MIRROR_GNU}/${PRGNAM}/${PRGNAM}/archive/${SRCARCHIVE}"
 
 # if source is not present, download in source rootdir if possible
