@@ -1,23 +1,25 @@
 ------------------------
 Last modif.| Program 
 ------------------------
+2019-02-10 | libfpx: (FlashPIX Image Library)      
+2019-02-10 | gmic: (Image converter and gimp plugin)    
+2019-02-07 | ffmpeg4: (Software to record, convert and stream audio and video)
+2019-02-05 | libharu: (library for generating PDF files)    
+2019-02-05 | mlt: (Open source multimedia framework)     
+2019-02-03 | openshot2: version 2 (open-source video editor)    
+2019-01-29 | movit: (The modern video toolkit)     
+2019-01-09 | luminance-hdr: HDR (HDR imaging application)     
 2019-01-06 | freefilesync: 
 2019-01-06 | kdenlive-kf5: (KDE Non Linear Video Editor)    
-2019-01-06 | luminance-hdr: HDR (HDR imaging application)     
-2019-01-06 | gmic: (Image converter and gimp plugin)    
 2019-01-06 | gimp-focusblur: (Create blur with luminosity and depth)   
 2019-01-06 | resynthesizer: (Gimp plug-in for texture synthesis)    
-2019-01-05 | ffmpeg4: (Software to record, convert and stream audio and video)
 2018-10-22 | ufraw: (Unindentified Flying RAW)      
 2018-10-09 | libvips: 
-2018-08-18 | libharu: (library for generating PDF files)    
 2018-08-18 | glade3: (Glade UI Designer version 3)    
 2018-08-18 | enblend-enfuse: (Image Blending and Enfusing tools)    
 2018-04-23 | gthumb: (An image viewer)      
-2018-04-07 | openshot2: version 2 (open-source video editor)    
 2018-02-05 | qucs-s: (circuit simulator)       
 2018-01-17 | libxavs: (AVS Encoder and Decoder Library)    
-2018-01-17 | libfpx: (FlashPIX Image Library)      
 2017-11-05 | xournal: (note taking application)      
 2017-10-19 | xsane: (Graphical frontend to SANE, Scanner Access Now Easy) 
 2017-07-30 | s2plot: (3D plotting library)      

@@ -25,7 +25,7 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 # Version of this SlackBuild: 181201 - Now solely for one version of Gimp
-# 190106 - Updated for ver 2.4.3
+# 190210 - Updated for ver 2.4.5
 #
 # Exit on most errors or unset variables
 set -eu
@@ -34,7 +34,7 @@ set -eu
 CWD=$(pwd)
 
 PRGNAM=${PRGNAM:-gmic}
-VERSION=${VERSION:-2.4.3}
+VERSION=${VERSION:-2.4.5}
 #VERSION=`date +%g%m%d`
 #VERSION=${VERSION:-$(echo ${PRGNAM}_*.tar.?z* | rev | cut -f3- -d. | cut -f1 -d_ | rev)}
 #PKGNAME=$(echo $PRGNAM | tr A-Z a-z)
@@ -144,13 +144,13 @@ sed -i -e "s|-Ofast|-O2 -fno-fast-math --std=c++11|g" \
 
 make -C src LIB=lib$LIBDIRSUFFIX OPT_CFLAGS="$SLKCFLAGS" cli lib libc 
 cd gmic-qt
-qmake GMIC_PATH=../src GMIC_DYNAMIC_LINKING=on HOST=none
-make LIB=lib$LIBDIRSUFFIX OPT_CFLAGS="$SLKCFLAGS"
-  qmake GMIC_PATH=../src GMIC_DYNAMIC_LINKING=on HOST=gimp
-make LIB=lib$LIBDIRSUFFIX OPT_CFLAGS="$SLKCFLAGS"
+ qmake-qt5 GMIC_PATH=../src GMIC_DYNAMIC_LINKING=on HOST=none
+ make LIB=lib$LIBDIRSUFFIX OPT_CFLAGS="$SLKCFLAGS"
+ qmake-qt5 GMIC_PATH=../src GMIC_DYNAMIC_LINKING=on HOST=gimp
+ make LIB=lib$LIBDIRSUFFIX OPT_CFLAGS="$SLKCFLAGS"
 
 cd ../zart
-qmake GMIC_PATH=../src GMIC_DYNAMIC_LINKING=on QMAKE_CXXFLAGS+=" -DOPENCV2_HEADERS"
+qmake-qt5 GMIC_PATH=../src GMIC_DYNAMIC_LINKING=on QMAKE_CXXFLAGS+=" -DOPENCV2_HEADERS"
 cd ../
 
 # if [ -d ../gmic-qt ]; then ln -sf ../gmic-qt ./ ; fi
