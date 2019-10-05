@@ -153,7 +153,7 @@ CXXFLAGS="$SLKCFLAGS" \
 sed -i -e 's/CXXFLAGS :=/CXXFLAGS := --std=c++11/' src/modules/qt/Makefile
 
 # From ArchLinux fix build with openCV 4.0
-patch -p1 -i ${CWD}/mlt-opencv4.patch
+# patch -p1 -i ${CWD}/mlt-opencv4.patch
 
 make clean
 CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" make

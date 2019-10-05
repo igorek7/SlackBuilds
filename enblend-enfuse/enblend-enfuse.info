@@ -1,6 +1,0 @@
-PRGNAM="enblend-enfuse"
-VERSION="Mercurial"
-HOMEPAGE="http://enblend.sourceforge.net/"
-DOWNLOAD="http://hg.code.sf.net/p/enblend/code"
-MD5SUM=""
-REQUIRES="boost gsl hdf5 ilmbase lcms2 libjpeg-turbo libpng libtiff openexr vigra xz zlib"

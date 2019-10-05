@@ -26,6 +26,7 @@
 #
 # Version of this SlackBuild: 181201 - Now solely for one version of Gimp
 # 190210 - Updated for ver 2.4.5
+# 190908 - Updated for ver 2.7.1
 #
 # Exit on most errors or unset variables
 set -eu
@@ -34,7 +35,7 @@ set -eu
 CWD=$(pwd)
 
 PRGNAM=${PRGNAM:-gmic}
-VERSION=${VERSION:-2.4.5}
+VERSION=${VERSION:-2.7.1}
 #VERSION=`date +%g%m%d`
 #VERSION=${VERSION:-$(echo ${PRGNAM}_*.tar.?z* | rev | cut -f3- -d. | cut -f1 -d_ | rev)}
 #PKGNAME=$(echo $PRGNAM | tr A-Z a-z)
@@ -134,11 +135,11 @@ sed -i -e "s|-Ofast|-O2 -fno-fast-math --std=c++11|g" \
     gmic-qt/gmic_qt.pro
 
 # fix build with openCV 4.0
-  cd src
-  patch -p1 -i ${CWD}/gmic-opencv4.patch
-  cd ../zart
-  patch -p1 -i ${CWD}/zart-opencv4.patch
-  cd ../
+#  cd src
+#  patch -p1 -i ${CWD}/gmic-opencv4.patch
+#  cd ../zart
+#  patch -p1 -i ${CWD}/zart-opencv4.patch
+#  cd ../
 
 # Build and install:
 
