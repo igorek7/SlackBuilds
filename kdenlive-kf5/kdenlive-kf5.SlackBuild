@@ -2,7 +2,7 @@
 
 # Slackware build script for kdenlive based on kf5
 
-# Copyright 2017-2019 Igor 29768, <igor29768 (at) gmail com>
+# Copyright 2017-2020 Igor 29768, <igor29768 (at) gmail com>
 # Copyright 2014 Tak Ooishi, Alberta, Canada <rootisfun (at) gadgetinventor com>
 # Original SBo script by stormtracknole <stormtracknole (at) gmail com> 8/5/2009
 # All rights reserved.
@@ -26,6 +26,8 @@
 
 # CHANGELOG
 # ---------
+# 200908
+# changed kdenlive git address
 # 190106 
 # Fix a bug related to compiling from pre-existing source directory
 # 170319 
@@ -101,7 +103,7 @@ cd $TMP
 
 # <DIO> Cloning the current gthumb sources
 if [ ! -e $PRGNAM ]; then
- git clone git://anongit.kde.org/kdenlive $PRGNAM
+ git clone https://invent.kde.org/multimedia/kdenlive.git $PRGNAM
  cd $PRGNAM
 else   
  cd $PRGNAM

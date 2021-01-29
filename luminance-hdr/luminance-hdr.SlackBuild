@@ -92,7 +92,7 @@ cd ..
 
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
 cp -a \
-  Changelog INSTALL TODO \
+  Changelog TODO \
   $PKG/usr/doc/$PRGNAM-$VERSION
 cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
 

@@ -1,6 +1,6 @@
 PRGNAM="xsane"
 VERSION="0.999"
-HOMEPAGE="http://www.xsane.org"
+HOMEPAGE="http://sane-project.org/"
 DOWNLOAD="http://www.xsane.org/download/xsane-0.999.tar.gz
           ftp://ftp.slackware.com/.2/slackware/slackware64-current/source/xap/xsane/*.patch.gz"
 MD5SUM="9927f21e1ab6ba96315e7f0e30746deb"

@@ -2,7 +2,7 @@
 #
 # Slackware Package Build Script for vips 
 # Build script by <DIO> igor29768 @ gmail.com
-# Version 181009
+# Version 200225
 #
 # http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS
 #
@@ -28,7 +28,7 @@
 set -e 
 
 PRGNAM="libvips"
-VERSION=${VERSION:-8.7.0}
+VERSION=${VERSION:-8.9.1}
 #VERSION=`date +%g%m%d`
 BUILD=${BUILD:-1}
 TAG=${TAG:-dio}
@@ -128,7 +128,7 @@ for i in $(find $PKG/usr/man -type l) ; do ln -s $(readlink $i).gz $i.gz ; rm $i
 #install -m 0644 icons/vips.png $PKG/usr/share/pixmaps
 
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
-cp -a ChangeLog TODO $PKG/usr/doc/$PRGNAM-$VERSION
+cp -a ChangeLog $PKG/usr/doc/$PRGNAM-$VERSION
 
 mkdir -p $PKG/install
 cat $CWD/slack-desc > $PKG/install/slack-desc

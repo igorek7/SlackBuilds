@@ -67,12 +67,12 @@ cd $TMP
 #cd $PRGNAM-$SRC_VERSION
 if [ ! -e $PRGNAM ]; then
 #hg clone https://photivo.googlecode.com/hg/ $PRGNAM
- hg clone https://bitbucket.org/Photivo/photivo $PRGNAM
+ git clone https://bitbucket.org/Photivo/photivo.git $PRGNAM
  cd $PRGNAM
 else
  cd $PRGNAM
- hg pull
- hg update default
+ git pull
+ git update default
 fi
 
 

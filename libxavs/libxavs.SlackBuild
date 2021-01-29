@@ -2,7 +2,7 @@
 
 # Heavily based on the Slackware 14.1 SlackBuild
 
-# 2017 Igor (igor29768 @ gmail.com)
+# 2017-2020 Igor (igor29768 @ gmail.com)
 # Written by Loris Vincenzi (info@slacky.it)
 # Last build from 6c33c ( seic33c [at] gmail [dot] com )
 
@@ -40,7 +40,7 @@ VERSION=$(date +%Y%m%d)			#In case of git/svn/cvs
 ARCH=${ARCH:-$(uname -m)}
 BUILD=${BUILD:-1}
 TAG=${TAG:-dio}
-SOURCE="https://xavs.svn.sourceforge.net/svnroot/xavs/trunk"
+SOURCE="https://svn.code.sf.net/p/xavs/code/trunk"
 TAR=      # empty = auto
 DIR=      # empty = auto
 TAR=$PKGNAME-$VERSION.tar.bz2		#In case of git/svn/cvs

@@ -25,7 +25,7 @@
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 PKGNAM=glade3
-VERSION=${VERSION:-3.18.3}
+VERSION=${VERSION:-3.22.1}
 SVER=${SVER:-$(echo $VERSION | rev | cut -f 2- -d . | rev)}
 BUILD=${BUILD:-1}
 TAG=${TAG:-dio}

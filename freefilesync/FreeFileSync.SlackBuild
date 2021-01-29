@@ -4,6 +4,7 @@
 
 # Originally by titopoquito (titopoquito@gmail.com)
 # Revised by igor29768 
+# 200112 Updated for Version 11.5
 # 190105 Updated for Version 10.7
 # 170226 Igor's initial modification
 
@@ -31,7 +32,7 @@
 #   SUCH DAMAGE.
 
 PRGNAM=FreeFileSync
-VERSION=${VERSION:-10.7}
+VERSION=${VERSION:-11.5}
 BUILD=${BUILD:-1}
 TAG=${TAG:-dio}
 
@@ -74,15 +75,10 @@ DL_OPTS=${DL_OPTS:-"--timeout=${DL_TO}"}
 SRCARCHIVE="${PRGNAM}_${VERSION}_Source.zip"
 test -r ${CWD}/${SRCARCHIVE} || ${DL_PROG} ${DL_OPTS} http://www.freefilesync.org/download/${SRCARCHIVE} || exit 1
 
-#ZENARCHIVE="zenXml_2.4.zip"
-#test -r ${CWD}/${ZENARCHIVE} || ${DL_PROG} ${DL_OPTS} http://downloads.sourceforge.net/project/zenxml/${ZENARCHIVE} || exit 1
-
 cd $TMP
 rm -rf $PRGNAM-$VERSION
 mkdir -p $PRGNAM-$VERSION
 cd $PRGNAM-$VERSION
-# unzip $CWD/zenXml_2.4.zip
-# rm -rf zen Changelog.txt
 unzip $CWD/${PRGNAM}_${VERSION}_Source.zip
 
 chown -R root:root .
@@ -96,63 +92,75 @@ find . \
 #patch -p1 < $CWD/use_our_cflags-5.6.patch
 # <DIO> Prepare
 # wxgtk < 3.1.0
-    sed -i 's/m_listBoxHistory->GetTopItem()/0/g' FreeFileSync/Source/ui/main_dlg.cpp
-# Revert to classic config path
-    patch --binary -p1 -i ${CWD}/revert_xdg_config_path.patch
-# Revert change to resources path of portable version
-    patch --binary -p1 -i ${CWD}/revert_resources_path.patch
-# gcc 6.3.1
-    sed -i 's!static_assert!//static_assert!' zen/scope_guard.h
-# warn_static(string) 
-    sed -i 's!-O3 -DN!-D"warn_static(arg)= " -O3 -DN!' FreeFileSync/Source/Makefile
-    sed -i 's!-O3 -DN!-D"warn_static(arg)= " -O3 -DN!' FreeFileSync/Source/RealTimeSync/Makefile
-# linker error
-    sed -i 's#inline##g' FreeFileSync/Source/ui/version_check_impl.h
-# install error
-    cp Changelog.txt FreeFileSync/Build
-# edit lines to remove functions that require wxgtk 3.1.x 
-   sed -e 's:m_textCtrlOfflineActivationKey->ForceUpper:// &:g' -i 'FreeFileSync/Source/ui/small_dlgs.cpp'
-   sed -e 's:const double scrollSpeed =:& 6; //:g' -i 'wx+/grid.cpp'
-# add '-lz' back into LINKFLAGS
-    sed -i '/pie/ s/-pthread/-lz -pthread/' FreeFileSync/Source/Makefile
-    sed -i '/pie/ s/-pthread/-lz -pthread/' FreeFileSync/Source/RealTimeSync/Makefile
-# file not found error
- sed -i '/\t"..\/Build\/User Manual.pdf" \\/d' FreeFileSync/Source/Makefile
- mkdir -p FreeFileSync/Build/Bin
+    # Revert to classic config path
+    patch -p1 -i $CWD/revert_xdg_config_path.patch
 
-cd FreeFileSync/Source
+    # Avoid uses of wxItemContainer::Append(const std::vector<wxString>& items)
+    patch -p1 -i $CWD/revert_bulk_append.patch
 
-# <DIO>
-# sed -i 's/gtk+-2.0/gtk+-3.0/' Makefile
+    # edit lines to remove functions that require wxgtk 3.1.x 
+    sed -e 's:m_textCtrlOfflineActivationKey->ForceUpper:// &:g' -i 'FreeFileSync/Source/ui/small_dlgs.cpp'
+    sed -e 's:const double scrollSpeed =:& 6; //:g' -i 'wx+/grid.cpp'
 
-make OPTS="$SLKCFLAGS" all
-make install DESTDIR=$PKG
+    patch -p1 -i $CWD/reversions_11-1.patch
+    grep -RiIl 'wxASCII_STR' | xargs sed -e 's/wxASCII_STR/wxString::FromAscii/g' -i
+    grep -RiIl 'wxDD_SHOW_HIDDEN' | xargs sed -e 's/, wxDD_DEFAULT_STYLE | wxDD_SHOW_HIDDEN//g' -i
 
-cd RealTimeSync
-make OPTS="$SLKCFLAGS"
-make install DESTDIR=$PKG
+# undo zenju hacks
+    sed -e '71,77d' -i 'wx+/dc.h'
+    sed -e '73d' -i 'wx+/no_flicker.h'
 
-find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
-  | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
+echo "add LINKFLAGS that were removed but that we still need in our case"
+    patch -p1 -i $CWD/revert_linkflags.patch
 
-# no man pages included
+# inlining of constants not present in libssh2's distributed headers
+    sed -i 's/MAX_SFTP_READ_SIZE/30000/g' FreeFileSync/Source/afs/sftp.cpp
+    sed -i 's/MAX_SFTP_OUTGOING_SIZE/30000/g' FreeFileSync/Source/afs/sftp.cpp
 
-# install a desktop file and an icon (from the included Help section)
-cd $TMP/$PRGNAM-$VERSION
-mkdir -p $PKG/usr/share/applications
-cat $CWD/$PRGNAM.desktop > $PKG/usr/share/applications/$PRGNAM.desktop
-mkdir -p $PKG/usr/share/pixmaps
-cat $CWD/ffsicon.png > $PKG/usr/share/pixmaps/$PRGNAM.png
-cat $CWD/RealTimeSync.desktop > $PKG/usr/share/applications/RealTimeSync.desktop
-cat $CWD/rtsicon.png > $PKG/usr/share/pixmaps/rtsicon.png
 
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
-#cp -a Compile.txt BUILD/License.txt BUILD/Changelog.txt $PKG/usr/doc/$PRGNAM-$VERSION 
 cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
 
 mkdir -p $PKG/install
 cat $CWD/slack-desc > $PKG/install/slack-desc
 cat $CWD/doinst.sh > $PKG/install/doinst.sh
+
+mkdir -p FreeFileSync/Build/Bin
+
+bindir="${PKG}/usr/bin"
+appdir="${PKG}/opt/FreeFileSync"
+appdocdir="${PKG}/usr/doc/FreeFileSync"
+srcdir="$TMP/$PRGNAM-$VERSION"
+
+# <DIO>
+# sed -i 's/gtk+-2.0/gtk+-3.0/' Makefile
+
+cd FreeFileSync/Source
+
+make exeName=FreeFileSync OPTS="$SLKCFLAGS" all
+#make install DESTDIR=$PKG
+    
+cd RealTimeSync
+make exeName=RealTimeSync OPTS="$SLKCFLAGS"
+#make install DESTDIR=$PKG
+
+cd ../../Build
+
+find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
+  | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
+
+install -t "${appdir}/Bin" -Dm755 Bin/*
+mkdir -p "${bindir}"
+ln -s /opt/FreeFileSync/Bin/{FreeFileSync,RealTimeSync} "${bindir}"
+
+cp -rT Resources "${appdir}/Resources"
+find "${appdir}/Resources" -type f -print0 | xargs -0 chmod 644
+install -t "${PKG}/usr/share/pixmaps" -Dm644 Resources/FreeFileSync.png Resources/RealTimeSync.png
+
+cd "${srcdir}"
+install -d "${appdocdir}"
+# gzip < Changelog.txt > "${appdocdir}/CHANGELOG.gz"
+install -t "${PKG}/usr/share/applications" -Dm644 $CWD/FreeFileSync.desktop $CWD/RealTimeSync.desktop
 
 cd $PKG
 /sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-txz}

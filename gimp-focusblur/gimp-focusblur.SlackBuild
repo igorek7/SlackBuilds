@@ -3,7 +3,7 @@
 # Slackware build script for gimp-focusblur
 # SlackBuild Version: 190106 - Reverse to single Gimp plugin
 # Copyright 2014 Papitux <papitux.br[at]gmail.com>
-# Copyright 2015-2019 Igor <DIO> <igor29768 [at]gmail.com>
+# Copyright 2015-2020 Igor <DIO> <igor29768 [at]gmail.com>
 # All rights reserved.
 #
 # Redistribution and use of this script, with or without modification, is permitted provided
@@ -24,7 +24,7 @@
 PRGNAM=gimp-focusblur
 SRCNAM=focusblur
 VERSION=3.2.6
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 TAG=${TAG:-dio}
 
 if [ -e $CWD/machine.conf ]; then
@@ -77,7 +77,8 @@ SRCARCHIVE=${SRCDIR}.tar.bz2
 DL_PROG=${DL_PROG:-wget}
 DL_TO=${DL_TO:-5}
 DL_OPTS=${DL_OPTS:-"--timeout=${DL_TO}"}
-MIRROR_SF=${MIRROR_SF:-http://registry.gimp.org/files}
+# MIRROR_SF=${MIRROR_SF:-http://registry.gimp.org/files}
+MIRROR_SF=${MIRROR_SF:"https://raw.githubusercontent.com/pixlsus/registry.gimp.org_static/master/registry.gimp.org/files"}
 DL_URL="${MIRROR_SF}/${SRCARCHIVE}"
 
 # if source is not present, download in source rootdir if possible
@@ -100,7 +101,7 @@ find . \
  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
  -exec chmod 644 {} \;
 
-CFLAGS="$SLKCFLAGS" \
+CFLAGS="$SLKCFLAGS -DGIMP_DISABLE_DEPRECATED -fcommon" \
 CXXFLAGS="$SLKCFLAGS" \
 LDFLAGS="$SLKLDFLAGS -lm" \
 ./configure \
